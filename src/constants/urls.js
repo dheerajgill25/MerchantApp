@@ -3,8 +3,16 @@ export const SUB_URL = "Merchant_Api/";
 export const SIGN_UP = "signup";
 export const Reset_Password = "forget_password";
 export const Sign_In = "login";
+export const BASIC_LIST="Basic_List_Api/";
+export const STATE_LIST="state_list";
+export const EMAIL_EXIST = "merchant_check_email_exist";
 export const MERCHANT_ORDER ="Merchant_Orders_Api/";
 export const TIME_SLOT_LIST ="get_time_slot_list";
 export const CLIENT_LIST ="get_client_list";
 export const ORDER_CREATE ="orders_create";
-
+export const PROFILE_IMAGE_UPDATE ="profile_image_update";
+export const PROFILE_GET ="profile_get";
+export const PROFILE_UPDATE ="profile_update";
+export const PICKUP_HISTORY ="order_history_pickup";
+export const DROP_OFF ="order_history_dropoff";
+export const LOGOUT = "logout";

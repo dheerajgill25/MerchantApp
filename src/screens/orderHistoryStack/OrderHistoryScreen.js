@@ -3,15 +3,15 @@ import {View} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Icon from 'react-native-vector-icons/Ionicons';
-import WalletOutstanding from './WalletOutstanding';
-import TabNavigator from './TabNavigator';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import OrderTabNav from './OrderTabNav';
 
-const WalletStack = createStackNavigator();
 
-const WalletStackScreen = ({navigation}) => (
+const OrderHistory = createStackNavigator();
 
-<WalletStack.Navigator screenOptions={{
+const OrderHistoryScreen = ({navigation}) => (
+
+<OrderHistory.Navigator screenOptions={{
         headerStyle: {
         backgroundColor: '#333'},
         headerTintColor: '#fff',
@@ -24,18 +24,9 @@ const WalletStackScreen = ({navigation}) => (
             <FontAwesome.Button name="bell" size={20} backgroundColor="#333" onPress={() => {}}></FontAwesome.Button>)
     }}>
 
-        <WalletStack.Screen name="Main" component={Main} options={{title:'Wallet',}}/>
+        <OrderHistory.Screen name="OrderTabNav" component={OrderTabNav} options={{title:'Order History',}}/>
         
-</WalletStack.Navigator>
+</OrderHistory.Navigator>
 );
 
-export default WalletStackScreen; 
-
-function Main() {
-    return (
-       <> 
-        <WalletOutstanding />
-        <TabNavigator />
-       </> 
-    );
-};
+export default OrderHistoryScreen; 

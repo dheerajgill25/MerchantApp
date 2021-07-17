@@ -17,9 +17,9 @@ const HomeStackScreen = ({navigation}) => (
         headerTitleStyle: {
         fontWeight: 'bold'
         },
-        headerLeft: () => (
-           <Icon.Button name="ios-menu" size={25} backgroundColor="#000" onPress={() => navigation.openDrawer()}></Icon.Button>
-        ),
+        // headerLeft: () => (
+        //    <Icon.Button name="ios-menu" size={25} backgroundColor="#000" onPress={() => navigation.openDrawer()}></Icon.Button>
+        // ),
 
         headerRight: () => (
             <FontAwesome.Button name="bell" size={20} backgroundColor="#000" onPress={() => {}}></FontAwesome.Button>

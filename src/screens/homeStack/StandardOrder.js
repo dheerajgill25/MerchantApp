@@ -1,11 +1,12 @@
 import React,{useState,useEffect} from 'react';
-import { View, Text, StyleSheet,SafeAreaView,StatusBar,ScrollView, TextInput, TouchableOpacity,Modal } from 'react-native';
+import { View, Text, StyleSheet,SafeAreaView,StatusBar,ScrollView, TextInput, TouchableOpacity,Modal,ActivityIndicator } from 'react-native';
 import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Button from '../../components/button';
 import styles from './homeStyle';
 import { Picker } from '@react-native-picker/picker';
 import {getClientList} from '../../services/createOrder'; 
+import { getStateList } from "../../services/auth";
 
 const StandardOrder = ({navigation}) => {
 
@@ -14,7 +15,6 @@ const StandardOrder = ({navigation}) => {
     const [data, setData] = useState({
       orderType:2,
       name:'',
-      email:'',
       clientName : '',
       medicineName:'',
       quantity:'',
@@ -29,21 +29,30 @@ const StandardOrder = ({navigation}) => {
       paidPharmacy:'',
       paidIncuranceCompany:'',
     });
-    const [clientList, setClientList]= React.useState({
-    pickerValueHolder:[],
-  })
+    const [clientList, setClientList]= React.useState([]);
+  const [businessTypeList, setBusinessTypeList] = useState([]);
+    const [designationList, setDesignationList] = useState([]);
+    const [stateList, setStateList] = useState([]);
+    const [cityList, setCityList] = useState([]);
+    const [areaCodeList, setAreaCodeList] = useState([]);
 
   useEffect(() =>{
-    getClientList()  
+
+    ClientList()
+
+    StateList()
+
+  }, []);
+
+  function ClientList(){
+      getClientList()  
     .then((res) => {
       if (res.code == 200){
           if (res.success == "false"){
               alert(res.message)
           }
         else {
-          setClientList({
-            pickerValueHolder:res.list
-          });
+          setClientList(res.list);
           setLoading(false);
           };  
         
@@ -58,8 +67,46 @@ const StandardOrder = ({navigation}) => {
           );
       }
     })
+  }
 
-  }, []);
+  function StateList(){
+     getStateList()  
+      .then((res) => {
+        if (res.code == 200){
+            if (res.success == "false"){
+                alert(res.message)
+            }
+          else {
+            setStateList(res.state_list);
+            setCityList(res.city_list)
+            setAreaCodeList(res.area_code_list)
+            setLoading(false);
+            };  
+          
+        }
+        else {
+            ToastAndroid.showWithGravityAndOffset(
+            res.message,
+            ToastAndroid.LONG,
+            ToastAndroid.BOTTOM,
+            25,
+            50
+            );
+        }
+    })
+
+  }
+
+  const validate = (text) => {
+
+    if (text != 0) {
+        return true;
+    }
+    else { 
+        return false;
+    }
+  }
+
 
 
     const toggleModalVisibility = () => {
@@ -267,27 +314,33 @@ const StandardOrder = ({navigation}) => {
     });
    
   }
+
+  function onNavigate() {
+    navigation.navigate('SelectTimeSlot',{orderType:data.orderType, name:data.name,clientName:data.clientName,medicineName:data.medicineName,quantity:data.quantity,
+                          address1:data.address1, address2:data.address2, state:data.state, areaCode: data.areaCode,city:data.city, phoneNo:data.phoneNo, 
+                          paymentType:data.paymentType, cashAmount:data.cashAmount, paidPharmacy:data.paidPharmacy, paidIncuranceCompany:data.paidIncuranceCompany})
+    
+  }
+
+
   const onCreateOrder = () =>{
     if(data.paymentType===1){
       toggleModalVisibility()
     }
     else{
       console.log("data....", data);
-     navigation.navigate('SelectTimeSlot',{orderType:data.orderType, name:data.name,email:data.email,clientName:data.clientName,medicineName:data.medicineName,quantity:data.quantity,
-                          address1:data.address1, address2:data.address2, state:data.state, areaCode: data.areaCode,city:data.city, phoneNo:data.phoneNo, 
-                          paymentType:data.paymentType, cashAmount:data.cashAmount, paidPharmacy:data.paidPharmacy, paidIncuranceCompany:data.paidInsuranceCompany})
-    
-    }
+      onNavigate()
+      }
   }
   
   const onSubmit =() =>{
    
     console.log("data....", data);
     if(data.cashAmount.length!==0) {
-      navigation.navigate('SelectTimeSlot',{orderType:data.orderType, name:data.name,email:data.email,clientName:data.clientName,medicineName:data.medicineName,quantity:data.quantity,
-                          address1:data.address1, address2:data.address2, state:data.state, areaCode: data.areaCode,city:data.city, phoneNo:data.phoneNo, 
-                          paymentType:data.paymentType, cashAmount:data.cashAmount, paidPharmacy:data.paidPharmacy, paidIncuranceCompany:data.paidInsuranceCompany})
-    }
+
+        onNavigate()
+      }
+      
     else{
       ToastAndroid.showWithGravityAndOffset(
         'Please enter Cash Amount',
@@ -297,8 +350,18 @@ const StandardOrder = ({navigation}) => {
         50
       );
     }
-  }   
-
+  }  
+  
+   
+   if (isLoading){
+    return (
+      <View style = {{flex: 1,justifyContent: "center", backgroundColor:'#000'}}>
+     <ActivityIndicator size="large" color="#fff" />
+     </View>
+    )
+  }
+  
+  else{
 
     return (
      <SafeAreaView style={styles.container}>
@@ -317,13 +380,15 @@ const StandardOrder = ({navigation}) => {
                     Paid by Pharmacy</Text>
                     <TextInput placeholder="Amount" 
                         value={data} style={styles.textInputDialogBox} 
+                        keyboardType= "number-pad"
                         onChangeText={(value) => paidPharmacyInputChange(value)} 
                     />
 
                     <Text style={{fontWeight:'bold', fontSize:15,paddingTop:10}}>
                     Paid by Insurance Companys</Text>                        
                     <TextInput placeholder="Amount" 
-                        value={data} style={styles.textInputDialogBox} 
+                        value={data} style={styles.textInputDialogBox}
+                        keyboardType= "number-pad" 
                         onChangeText={(value) => paidIncuranceCompanyInputChange(value)} 
                     />
                     
@@ -339,9 +404,9 @@ const StandardOrder = ({navigation}) => {
                 </View>
             </Modal>
         <ScrollView>      
-              <Text style={styles.text}>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.</Text>
-              
-                <View style={styles.action}>               
+             <Text style={styles.text}>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.</Text>
+
+               <View style={styles.action}>               
                   <TextInput 
                       placeholder="Name"
                       placeholderTextColor = "#fff"
@@ -350,20 +415,22 @@ const StandardOrder = ({navigation}) => {
                       onChangeText={(val) => nameInputChange(val)}    
                   />
                 </View>  
-
+                  
+                
                 <View style={styles.dropdownSection}>
+                 
                   <Picker
                     style={styles.picker} itemStyle={styles.pickerItem}
                     selectedValue={data.clientName}
                     onValueChange={(itemValue, itemIndex) => clientlistInputchange(itemValue)}>
-                    {clientList.pickerValueHolder.map((item, key)=>
-                    <Picker.Item label={item.email} value={item.email} key={key} />)}
-                  </Picker> 
-                  <View style={styles.arrowWrapper}>
-                    <Text style={styles.arrow}>&#9660;</Text>
-                  </View>
-                </View>
+                    {clientList.map((item, key)=>
+                    <Picker.Item label={item.full_name} value={item.id} key={item.id} />)}
+                  </Picker>
                   
+                  {/* <View style={styles.arrowWrapper}>
+                    <Text style={styles.arrow}>&#9660;</Text>
+                  </View> */}
+                </View>
                 <View style={styles.action}>
                   <TextInput 
                       placeholder="Medicine Name"
@@ -402,52 +469,65 @@ const StandardOrder = ({navigation}) => {
                       onChangeText={(val) => address2InputChange(val)}
                   />
                 </View>
-                <View style={styles.action}>
-                  <TextInput 
-                      placeholder="State"
-                      placeholderTextColor = "#fff"
-                      style={[styles.textInput,{fontSize:16,}]}
-                      autoCapitalize="none"
-                      onChangeText={(val) => stateInputChange(val)}
-                  />
+                 <View style={styles.dropdownSection}>
+                 
+                <Picker
+                    style={styles.picker} itemStyle={styles.pickerItem}
+                    selectedValue={stateList}
+                    onValueChange={(itemValue, itemIndex) => stateInputChange(itemValue)}>
+                    {stateList.map((item, key)=>
+                    <Picker.Item label={item.state_name} value={item.id} key={item.id} />)}
+                  </Picker>
+                  
+                  {/* <View style={styles.arrowWrapper}>
+                    <Text style={styles.arrow}>&#9660;</Text>
+                  </View> */}
                 </View>
+               <View style={styles.dropdownSection}>
+                 
+                  <Picker
+                    style={styles.picker} itemStyle={styles.pickerItem}
+                    selectedValue={cityList}
+                    onValueChange={(itemValue, itemIndex) => cityInputChange(itemValue)}>
+                    {cityList.map((item, key)=>
+                    <Picker.Item label={item.city_name} value={item.id} key={item.id} />)}
+                  </Picker>
+                  
+                  {/* <View style={styles.arrowWrapper}>
+                    <Text style={styles.arrow}>&#9660;</Text>
+                  </View> */}
+                </View>              
 
-              <View style={{ flexDirection: 'row'}}>  
-               <View style={[styles.columnSection,{marginRight:'5%'}]}>
-                  <TextInput 
-                      placeholder="Area Code"
-                      placeholderTextColor = "#fff"
-                      style={styles.sectionText}
-                      autoCapitalize="none"
-                      keyboardType="numeric"
-                      onChangeText={(val) => areaCodeInputChange(val)}
-                  />
-                </View>  
-                <View style={[styles.columnSection,{marginLeft:'5%'}]}>
-                  <TextInput 
-                      placeholder="City"
-                      placeholderTextColor = "#fff"
-                      style={styles.sectionText}
-                      autoCapitalize="none"
-                      onChangeText={(val) => cityInputChange(val)}
-                  />
+                 <View style={styles.dropdownSection}>
+                 
+                   <Picker
+                    style={styles.picker} itemStyle={styles.pickerItem}
+                    selectedValue={areaCodeList}
+                    onValueChange={(itemValue, itemIndex) => areaCodeInputChange(itemValue)}>
+                    {areaCodeList.map((item, key)=>
+                    <Picker.Item label={item.areacode} value={item.id} key={item.id} />)}
+                  </Picker>
+               
+
+                  {/* <View style={styles.arrowWrapper}>
+                    <Text style={styles.arrow}>&#9660;</Text>
+                  </View> */}
                 </View>
-              </View>  
-              <View style={styles.action}>
+                <View style={styles.action}>
                   <TextInput 
                       placeholder="Primary Phone"
                       placeholderTextColor = "#fff"
                       style={[styles.textInput,{fontSize:16,}]}
                       autoCapitalize="none"
+                      keyboardType="numeric"
                       onChangeText={(val) => phoneNoInputChange(val)}
                   />
                 </View>
-
                 <View style={{alignItems:'center', justifyContent:'center', marginVertical:15}}>
                   <RadioForm
                     radio_props={radio_props}
-                    intial={2}
-                    onPress={(value => {paymentTypeInputChange(value)})}
+                    intial={0}
+                    onPress={(value) => {paymentTypeInputChange(value)}}
                     buttonSize={12}
                     buttonOuterSize={25}
                     buttonColor={'#fff'}
@@ -459,17 +539,17 @@ const StandardOrder = ({navigation}) => {
                   />
                 </View>
  
-            <View style={{alignItems:'center',justifyContent:'center'}}> 
-                <Button style={styles.submit} onPress={()=>onCreateOrder()}>
+              <View style={{alignItems:'center',justifyContent:'center', marginBottom:80}}> 
+                <Button style={styles.submit} onPress= {()=>onCreateOrder()} >
                   <Text style={{color: '#fff', fontSize:17}}>Create Order</Text>     
                 </Button>   
             </View>
-            
         </ScrollView>
 
       </SafeAreaView>      
    
     );
+  }  
 };
 
 export default StandardOrder;

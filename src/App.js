@@ -4,21 +4,19 @@
  *
  * @format
  * @flow
- */
+*/
 import 'react-native-gesture-handler';
 import React, { useEffect } from 'react';
-import { View, Dimensions } from 'react-native';
+import { View, Dimensions,LogBox} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { createDrawerNavigator } from '@react-navigation/drawer';
-import { DrawerContent } from './navigation/DrawerContent';
 import MainTabScreen from './navigation/MainTabScreen';
 import RootStackScreen from './screens/loginScreens/RootStackScreen';
 import * as Animatable from 'react-native-animatable';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import images from './images';
-
+import {getuser, setuser} from './constants/tokenHandler'
 import { AuthContext } from './components/context';
-const Drawer = createDrawerNavigator();
+import BusinessDetailsScreen from './screens/loginScreens/BusinessDetailsScreen'
 
 const App = () => {
   const [isLoading, setIsLoading] = React.useState(true);
@@ -58,6 +56,11 @@ const App = () => {
     }
   };
 
+  console.reportErrorsAsExceptions = false;
+      LogBox.ignoreLogs([
+        'Require cycle:'
+      ])
+
   const [loginState, dispatch] = React.useReducer(loginReducer, initialLoginState);
 
   const authContext = React.useMemo(() => ({
@@ -68,6 +71,7 @@ const App = () => {
       
       try {
         await AsyncStorage.setItem('userToken', userToken);
+         setuser(userToken);
       } catch(e) {
         console.log(e);
       }
@@ -91,6 +95,7 @@ const App = () => {
       
       try {
         await AsyncStorage.setItem('userToken', userToken);
+         setuser(userToken);
       } catch(e) {
         console.log(e);
       }
@@ -106,6 +111,7 @@ const App = () => {
       userToken = null;
       try {
         userToken = await AsyncStorage.getItem('userToken');
+         setuser(userToken);
       } catch(e) {
         console.log(e);
       }
@@ -132,11 +138,7 @@ const App = () => {
     <AuthContext.Provider value={authContext}>
     <NavigationContainer>
       { loginState.userToken !== null ? (
-       
-     <Drawer.Navigator drawerContent={props => <DrawerContent {...props} />}>
-          <Drawer.Screen name="HomeDrawer" component={MainTabScreen} /> 
-      
-        </Drawer.Navigator>
+        <MainTabScreen />
       )
     :
       <RootStackScreen/>
@@ -150,5 +152,3 @@ export default App;
 
 const {height} = Dimensions.get("screen");
 const height_logo = height * 0.28;
-
-

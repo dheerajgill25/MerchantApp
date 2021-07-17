@@ -20,6 +20,7 @@ import { AuthContext } from '../../components/context';
 import images from '../../images';
 import loginStyles from './loginComponentsStyles';
 import Button from '../../components/button';
+import {setuser} from '../../constants/tokenHandler'
 
 const SignInScreen = ({ navigation }) => {
 
@@ -65,6 +66,7 @@ const SignInScreen = ({ navigation }) => {
                         };
                         
                          foundUser();
+                            setuser(res["merchant_details"]["access_token_db"]);
                           signIn(res["merchant_details"]["access_token_db"])
                     
                         //navigation.navigate('MainTabScreen')

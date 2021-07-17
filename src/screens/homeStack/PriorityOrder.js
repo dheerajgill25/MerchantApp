@@ -6,6 +6,7 @@ import Button from '../../components/button';
 import styles from './homeStyle';
 import { Picker } from '@react-native-picker/picker';
 import {getClientList} from '../../services/createOrder'; 
+import { getStateList } from "../../services/auth";
 
   const PriorityOrder = ({navigation}) => {
 
@@ -14,7 +15,6 @@ import {getClientList} from '../../services/createOrder';
   const [data, setData] = React.useState({
     orderType:1,
     name:'',
-    email:'',
     clientName : '',
     medicineName:'',
     quantity:'',
@@ -30,21 +30,32 @@ import {getClientList} from '../../services/createOrder';
     paidIncuranceCompany:0,
   });
 
-  const [clientList, setClientList]= React.useState({
-    pickerValueHolder:[],
-  })
+  const [clientList, setClientList]= React.useState([]);
+  const [businessTypeList, setBusinessTypeList] = useState([]);
+    const [designationList, setDesignationList] = useState([]);
+    const [stateList, setStateList] = useState([]);
+    const [cityList, setCityList] = useState([]);
+    const [areaCodeList, setAreaCodeList] = useState([]);
 
   useEffect(() =>{
-    getClientList()  
+    StateList()
+
+    ClientList()
+
+    
+
+  }, []);
+
+  function ClientList(){
+      getClientList()  
     .then((res) => {
       if (res.code == 200){
           if (res.success == "false"){
               alert(res.message)
           }
         else {
-          setClientList({
-            pickerValueHolder:res.list
-          });
+          console.log(res)
+          setClientList(res.list);
           setLoading(false);
           };  
         
@@ -59,9 +70,45 @@ import {getClientList} from '../../services/createOrder';
           );
       }
     })
+  }
 
-  }, []);
+  function StateList(){
+     getStateList()  
+      .then((res) => {
+        if (res.code == 200){
+            if (res.success == "false"){
+                alert(res.message)
+            }
+          else {
+            setStateList(res.state_list);
+            setCityList(res.city_list)
+            setAreaCodeList(res.area_code_list)
+            setLoading(false);
+            };  
+          
+        }
+        else {
+            ToastAndroid.showWithGravityAndOffset(
+            res.message,
+            ToastAndroid.LONG,
+            ToastAndroid.BOTTOM,
+            25,
+            50
+            );
+        }
+    })
 
+  }
+
+  const validate = (text) => {
+
+    if (text != 0) {
+        return true;
+    }
+    else { 
+        return false;
+    }
+  }
 
 
   const toggleModalVisibility = () => {
@@ -100,22 +147,6 @@ import {getClientList} from '../../services/createOrder';
             ...data,
             fullName: val,
             check_nameInputChange: false
-        });
-    }
-  }
-
-  const emailInputChange = (val) => {
-    if( val.length !== 0 ) {
-        setData({
-            ...data,
-            email: val,
-            check_emailInputChange: true
-        });
-    } else {
-        setData({
-            ...data,
-            email: val,
-            check_emailInputChange: false
         });
     }
   }
@@ -270,27 +301,30 @@ import {getClientList} from '../../services/createOrder';
     });
    
   }
-   console.log("opaymentTypea....", data.paymentType);
+
+  function onNavigate(){
+     navigation.navigate('SelectTimeSlot',{orderType:data.orderType, name:data.name,clientName:data.clientName,medicineName:data.medicineName,quantity:data.quantity,
+                          address1:data.address1, address2:data.address2, state:data.state, areaCode: data.areaCode,city:data.city, phoneNo:data.phoneNo, 
+                          paymentType:data.paymentType, cashAmount:data.cashAmount, paidPharmacy:data.paidPharmacy, paidIncuranceCompany:data.paidIncuranceCompany})
+   
+  }
+
+
   const onCreateOrder = () =>{
     if(data.paymentType===1){
       toggleModalVisibility()
     }
     else{
       console.log("data....", data);
-     navigation.navigate('SelectTimeSlot',{orderType:data.orderType, name:data.name,email:data.email,clientName:data.clientName,medicineName:data.medicineName,quantity:data.quantity,
-                          address1:data.address1, address2:data.address2, state:data.state, areaCode: data.areaCode,city:data.city, phoneNo:data.phoneNo, 
-                          paymentType:data.paymentType, cashAmount:data.cashAmount, paidPharmacy:data.paidPharmacy, paidIncuranceCompany:data.paidInsuranceCompany})
-    
+      onNavigate()
     }
   }
-  
+ 
   const onSubmit =() =>{
-   
+    
     console.log("data....", data);
     if(data.cashAmount.length!==0) {
-      navigation.navigate('SelectTimeSlot',{orderType:data.orderType, name:data.name,email:data.email,clientName:data.clientName,medicineName:data.medicineName,quantity:data.quantity,
-                          address1:data.address1, address2:data.address2, state:data.state, areaCode: data.areaCode,city:data.city, phoneNo:data.phoneNo, 
-                          paymentType:data.paymentType, cashAmount:data.cashAmount, paidPharmacy:data.paidPharmacy, paidIncuranceCompany:data.paidInsuranceCompany})
+      onNavigate()
     }
     else{
       ToastAndroid.showWithGravityAndOffset(
@@ -359,29 +393,20 @@ import {getClientList} from '../../services/createOrder';
                   />
                 </View>  
                   
-                <View style={styles.action}>
-                  <TextInput 
-                      placeholder="Email"
-                      placeholderTextColor = "#fff"
-                      style={[styles.textInput,{fontSize:16,}]}
-                      autoCapitalize="none"
-                      keyboardType="email-address"
-                      onChangeText={(val) => emailInputChange(val)}
-                  />
-                </View> 
+                
                 <View style={styles.dropdownSection}>
                  
                   <Picker
                     style={styles.picker} itemStyle={styles.pickerItem}
                     selectedValue={data.clientName}
                     onValueChange={(itemValue, itemIndex) => clientlistInputchange(itemValue)}>
-                    {clientList.pickerValueHolder.map((item, key)=>
-                    <Picker.Item label={item.email} value={item.email} key={key} />)}
+                    {clientList.map((item, key)=>
+                    <Picker.Item label={item.full_name} value={item.id} key={item.id} />)}
                   </Picker>
                   
-                  <View style={styles.arrowWrapper}>
+                  {/* <View style={styles.arrowWrapper}>
                     <Text style={styles.arrow}>&#9660;</Text>
-                  </View>
+                  </View> */}
                 </View>
                 <View style={styles.action}>
                   <TextInput 
@@ -421,38 +446,51 @@ import {getClientList} from '../../services/createOrder';
                       onChangeText={(val) => address2InputChange(val)}
                   />
                 </View>
-                <View style={styles.action}>
-                  <TextInput 
-                      placeholder="State"
-                      placeholderTextColor = "#fff"
-                      style={[styles.textInput,{fontSize:16,}]}
-                      autoCapitalize="none"
-                      onChangeText={(val) => stateInputChange(val)}
-                  />
+                 <View style={styles.dropdownSection}>
+                 
+                <Picker
+                    style={styles.picker} itemStyle={styles.pickerItem}
+                    selectedValue={stateList}
+                    onValueChange={(itemValue, itemIndex) => stateInputChange(itemValue)}>
+                    {stateList.map((item, key)=>
+                    <Picker.Item label={item.state_name} value={item.id} key={item.id} />)}
+                  </Picker>
+                  
+                  {/* <View style={styles.arrowWrapper}>
+                    <Text style={styles.arrow}>&#9660;</Text>
+                  </View> */}
                 </View>
+               <View style={styles.dropdownSection}>
+                 
+                  <Picker
+                    style={styles.picker} itemStyle={styles.pickerItem}
+                    selectedValue={cityList}
+                    onValueChange={(itemValue, itemIndex) => cityInputChange(itemValue)}>
+                    {cityList.map((item, key)=>
+                    <Picker.Item label={item.city_name} value={item.id} key={item.id} />)}
+                  </Picker>
+                  
+                  {/* <View style={styles.arrowWrapper}>
+                    <Text style={styles.arrow}>&#9660;</Text>
+                  </View> */}
+                </View>              
 
-              <View style={{ flexDirection: 'row'}}>  
-               <View style={[styles.columnSection,{marginRight:'5%'}]}>
-                  <TextInput 
-                      placeholder="Area Code"
-                      placeholderTextColor = "#fff"
-                      style={styles.sectionText}
-                      autoCapitalize="none"
-                      keyboardType="numeric"
-                      onChangeText={(val) => areaCodeInputChange(val)}
-                  />
-                </View>  
-                <View style={[styles.columnSection,{marginLeft:'5%'}]}>
-                  <TextInput 
-                      placeholder="City"
-                      placeholderTextColor = "#fff"
-                      style={styles.sectionText}
-                      autoCapitalize="none"
-                      onChangeText={(val) => cityInputChange(val)}
-                  />
+                 <View style={styles.dropdownSection}>
+                 
+                   <Picker
+                    style={styles.picker} itemStyle={styles.pickerItem}
+                    selectedValue={areaCodeList}
+                    onValueChange={(itemValue, itemIndex) => areaCodeInputChange(itemValue)}>
+                    {areaCodeList.map((item, key)=>
+                    <Picker.Item label={item.areacode} value={item.id} key={item.id} />)}
+                  </Picker>
+               
+
+                  {/* <View style={styles.arrowWrapper}>
+                    <Text style={styles.arrow}>&#9660;</Text>
+                  </View> */}
                 </View>
-              </View>  
-              <View style={styles.action}>
+                <View style={styles.action}>
                   <TextInput 
                       placeholder="Primary Phone"
                       placeholderTextColor = "#fff"
@@ -462,7 +500,6 @@ import {getClientList} from '../../services/createOrder';
                       onChangeText={(val) => phoneNoInputChange(val)}
                   />
                 </View>
-
                 <View style={{alignItems:'center', justifyContent:'center', marginVertical:15}}>
                   <RadioForm
                     radio_props={radio_props}
@@ -479,7 +516,7 @@ import {getClientList} from '../../services/createOrder';
                   />
                 </View>
  
-              <View style={{alignItems:'center',justifyContent:'center'}}> 
+              <View style={{alignItems:'center',justifyContent:'center', marginBottom:80}}> 
                 <Button style={styles.submit} onPress= {()=>onCreateOrder()} >
                   <Text style={{color: '#fff', fontSize:17}}>Create Order</Text>     
                 </Button>   

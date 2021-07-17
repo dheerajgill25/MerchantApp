@@ -3,7 +3,7 @@ import  { StyleSheet } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
-import ExploreScreen from './ExploreScreen';
+import OrderHistory from '../screens/orderHistoryStack/OrderHistoryScreen';
 import ProfileStackScreen from '../screens/profileStack/profileStackScreen';
 import WalletStackScreen from '../screens/walletStack/WalletStackScreen';
 import HomeStackScreen from '../screens/homeStack/homeStackScreen';
@@ -17,7 +17,7 @@ const MainTabScreen = ({ navigation }) => (
     tabBarOptions={{
       showLabel: false,
       activeTintColor: '#fff',
-      style:{
+    style:{
       position:'absolute',
       bottom: 25,
       left:20,
@@ -25,6 +25,7 @@ const MainTabScreen = ({ navigation }) => (
       backgroundColor:'#333',
       borderRadius: 50,
       height:50,
+      borderTopWidth: 0,
       }
     }}
   >
@@ -51,10 +52,10 @@ const MainTabScreen = ({ navigation }) => (
         }}
       />
       <Tab.Screen
-        name="Explore"
-        component={ExploreScreen}
+        name="OrderHistory"
+        component={OrderHistory}
         options={{
-          tabBarLabel: 'Explore',
+          tabBarLabel: 'OrderHistory',
           tabBarIcon: ({ color }) => (
             <FontAwesome name="history" color={color} size={26}/>
           ),

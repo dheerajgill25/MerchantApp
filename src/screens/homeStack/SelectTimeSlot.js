@@ -6,8 +6,8 @@ import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import Card from '../../components/card';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Button from '../../components/button';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getTimeSlot,createPickUp } from '../../services/createOrder';
+import {getuser} from '../../constants/tokenHandler'
 
 
 const SelectTimeSlot = ({navigation,route}) => {
@@ -15,19 +15,13 @@ const SelectTimeSlot = ({navigation,route}) => {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = React.useState({
-    pickupdate:'',
+    pickupDate:'',
     timeSlot:'',
     deliveryInstructions:'',
-    payTime:1,
-    token: '',
   });
-    const [list, setList] = React.useState({
-    timeList:[],
-  })
-  var radio_props = [
-      {label: 'Pay Now', value: 1 },
-      {label: 'Pay Later', value: 2 }
-    ];
+
+    const [list, setList] = React.useState([])
+
 
    useEffect(() =>{
     getTimeSlot()  
@@ -37,9 +31,7 @@ const SelectTimeSlot = ({navigation,route}) => {
               alert(res.message)
           }
         else {
-          setList({
-            timeList:res.list
-          })
+          setList(res.list)
           };   
           setLoading(false);   
       }
@@ -53,21 +45,10 @@ const SelectTimeSlot = ({navigation,route}) => {
           );
       }
     })
-  let arr = list.timeList.map((item,index)=>{
-    item.isSelected = false
-    return{...item};
-  })
-    setList({timeList:arr});
-    getToken();
+      
   }, []);
 
 
-    const selectionHandler =(index, fromTime, toTime)=>{
-      setData({
-        ...data,
-        timeSlot:index
-      })
-    }
 
     const deliveryInstructionsInputChange = (val) => {
         if( val.length !== 0 ) {
@@ -99,41 +80,21 @@ const SelectTimeSlot = ({navigation,route}) => {
       hideDatePicker();
     };
 
-    const getToken = async () => {
-      try {
-        const value = await AsyncStorage.getItem('userToken')
-        if(value !== null) {
-          setData({
-                ...data,
-                token: value,   
-            });
-            
-        }
-      } catch(e) {
-        console.log("token error",e)
-      }
-    }
-
+    
     const getDate = () => {
       let tempDate = date.toString().split(' ');
-      data.pickupdate =`${tempDate[0]}, ${tempDate[2]}-${tempDate[1]}-${tempDate[3]}`
+      data.pickupDate =`${tempDate[0]}, ${tempDate[2]}-${tempDate[1]}-${tempDate[3]}`
       return date !== ''
-        ? data.pickupdate
+        ? data.pickupDate
         : 'Select date';    
     };
-    const payTimeInputChange =(val)=>{
-      setData({
-        ...data,
-        payTime:val,
-        check_payTimeInputChange: true
-      });
-    }
 
     function onCreatePickup(){
-      if(data.token !== null){
-      createPickUp(route.params.orderType,route.params.name,route.params.email,route.params.clientName,route.params.medicineName,route.params.quantity,
+  
+      createPickUp(route.params.orderType,route.params.name,route.params.clientName,route.params.medicineName,route.params.quantity,
                   route.params.address1,route.params.address2,route.params.state,route.params.city,route.params.areaCode,route.params.phoneNo,route.params.paymentType,
-                  route.params.cashAmount,route.params.paidPharmacy,route.params.paidIncuranceCompany,data.pickupdate,data.timeSlot,data.deliveryInstructions,data.payTime,data.token)
+                  route.params.cashAmount,route.params.paidPharmacy,route.params.paidIncuranceCompany,data.pickupDate,data.timeSlot,data.deliveryInstructions)
+
           .then((res) => {
       
           if (res.code == 200){
@@ -157,16 +118,38 @@ const SelectTimeSlot = ({navigation,route}) => {
         }
                                       
         })
-      }
-      else{
-        return (
-        <View style = {{flex: 1,justifyContent: "center", backgroundColor:'#000'}}>
-          <ActivityIndicator size="large" color="#fff" />
-        </View>
-        )
-      }  
 
     };
+    console.log("time slot..", data.timeSlot)
+
+    const Item = ({ id,fromName,toName }) => (
+      <TouchableOpacity  onPress={() => {setData({ timeSlot: id }) }}>
+        <Card style= {{backgroundColor: data.timeSlot === id ? 'grey': '#292929',
+            marginVertical: 10,
+            paddingVertical: 13,
+            paddingHorizontal: 16,
+            alignSelf:'center', 
+            justifyContent:'center' ,
+            width: "100%",}}>
+        
+              <View style= {{flexDirection:'row',}}>
+                <Icon name="clock-time-eight-outline" color={'#f0f0f0'} size={20}/>
+                <View style={{flex:1, alignItems:'center'}}>
+                  <Text style={{color:data.timeSlot === id ? '#fff': 'grey', fontSize:17, }}>{fromName} to {toName}</Text>
+                </View>
+              </View>  
+      
+      </Card>
+    </TouchableOpacity>
+  );
+
+    const renderItem = ({ item }) => (
+        <Item 
+          id={item.id}
+          fromName={item.from_name}
+          toName={item.to_name}
+        />  
+      );
 
   if (isLoading){
     return (
@@ -178,7 +161,6 @@ const SelectTimeSlot = ({navigation,route}) => {
   else{
     return (
       <View style={styles.container}>
-      <ScrollView>
       <TouchableOpacity onPress={()=>showDatePicker()}>
         <View style= {styles.showdate} >
           <Text style={{flex:1, color:'#fff',}}>{getDate()}</Text>
@@ -193,21 +175,12 @@ const SelectTimeSlot = ({navigation,route}) => {
       </TouchableOpacity>
           <View style={{justifyContent:'center'}}>
 
-            {list.timeList.map((item,index)=>{
-          return(
-            <TouchableOpacity 
-            onPress={() =>selectionHandler(index+1)}>
-             <Card style={styles.cardHighlight}> 
-              <View style= {{flexDirection:'row',}}>
-                <Icon name="clock-time-eight-outline" color={'#f0f0f0'} size={20}/>
-                <View style={{flex:1, alignItems:'center'}}>
-                  <Text style={{color:'grey', fontSize:17, }}>{item.from_name} to {item.to_name}</Text>
-                </View>
-              </View>   
-              </Card>   
-            </TouchableOpacity>
-          )
-        })}
+          <FlatList
+            data={list}
+            renderItem={renderItem}
+            keyExtractor={item => item.id}
+            ListFooterComponent ={<View style={{height:30}}></View>}
+          />
           </View>
         <View style={styles.action}>               
           <TextInput 
@@ -218,27 +191,11 @@ const SelectTimeSlot = ({navigation,route}) => {
               onChangeText={(val) => deliveryInstructionsInputChange(val)}    
           />
         </View>  
-          <View style={{marginVertical:15}}>
-            <RadioForm
-              radio_props={radio_props}
-              intial={2}
-              onPress={(value => {payTimeInputChange(value)})}
-              buttonSize={12}
-              buttonOuterSize={25}
-              buttonColor={'#fff'}
-              formHorizontal={false}
-              labelHorizontal={true}
-              animation={true}
-              labelStyle={{fontSize: 17, color: '#fff', marginLeft:30, marginHorizontal:20}}
-              selectedButtonColor= {'#fff'}
-            />
-          </View>
-          <View style={{alignItems:'center',justifyContent:'center'}}> 
-            <Button style={styles.submit} onPress={()=>onCreatePickup()}>
+          <View style={{alignItems:'center',justifyContent:'center', marginVertical:30}}> 
+            <Button onPress={()=>onCreatePickup()}>
               <Text style={{color: '#fff', fontSize:17}}>Create Pickup</Text>     
             </Button>   
-          </View>
-        </ScrollView>  
+          </View> 
       </View>
     );
   }
@@ -266,19 +223,12 @@ textInput: {
     paddingTop: 20,
     margin: 10,
   },
-   cardHighlight:{
-    marginVertical: 10,
-    backgroundColor: '#292929',
-    paddingVertical: 13,
-    paddingHorizontal: 16,
-    alignSelf:'center', 
-    justifyContent:'center' ,
-    width: "100%",
-  },
+
    action: {
     flexDirection: 'row',
     marginVertical: 10,
     borderBottomWidth: 1,
     borderBottomColor: '#fff',    
   },
+  
 });

@@ -77,6 +77,7 @@ const styles = StyleSheet.create({
       borderBottomColor: "#000",
       borderBottomWidth: 1,
       marginBottom: 8,
+      color:'#000'
     },
   closeButton:{
     backgroundColor: 'red',

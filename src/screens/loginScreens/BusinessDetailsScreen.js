@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { View, 
   Text, 
@@ -11,6 +11,7 @@ import { View,
   Image,
   SafeAreaView,
   ToastAndroid,
+  ActivityIndicator,
 } from 'react-native';
 
 import * as Animatable from 'react-native-animatable';
@@ -18,11 +19,12 @@ import { Picker } from '@react-native-picker/picker';
 import Colors from '../../constants/colors';
 import Card from '../../components/card';
 import Button from '../../components/button';
-import { signup } from "../../services/auth";
+import { signup,getStateList } from "../../services/auth";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AuthContext } from '../../components/context';
 import images from '../../images';
 import loginStyles from './loginComponentsStyles';
+import {setuser} from '../../constants/tokenHandler'
 
 
 const BusinessDetailsScreen = ({route, navigation}) => {
@@ -39,15 +41,56 @@ const BusinessDetailsScreen = ({route, navigation}) => {
     areaCode:'',
     city:'',
     businessContactNo:'',
+    businessDomain:'',
     facebook:'',
     linkedin:'',
     twitter:'',
     instagram:'',
-    category: ''
+
   });
+    const [isLoading, setLoading] = useState(true); 
+    const [businessTypeList, setBusinessTypeList] = useState([]);
+    const [designationList, setDesignationList] = useState([]);
+    const [businessDomainList, setBusinessDomainList] =useState([]);
+    const [stateList, setStateList] = useState([]);
+    const [cityList, setCityList] = useState([]);
+    const [areaCodeList, setAreaCodeList] = useState([]);
+
+
+    useEffect(() =>{
+      getStateList()  
+      .then((res) => {
+        if (res.code == 200){
+            if (res.success == "false"){
+                alert(res.message)
+            }
+          else {
+            setBusinessTypeList(res.business_type_list);
+            setDesignationList(res.designation_list);
+            setStateList(res.state_list);
+            setCityList(res.city_list)
+            setAreaCodeList(res.area_code_list)
+            setBusinessDomainList(res.business_category_list)
+            setLoading(false);
+            };  
+          
+        }
+        else {
+            ToastAndroid.showWithGravityAndOffset(
+            res.message,
+            ToastAndroid.LONG,
+            ToastAndroid.BOTTOM,
+            25,
+            50
+            );
+        }
+    })
+
+  }, []);
+
 
     const { signUp } = React.useContext(AuthContext);
-    
+
       function onSignup() {
           if (data.businessName.length != 0) {
               if (data.registrationNo.length !=0) {
@@ -56,13 +99,15 @@ const BusinessDetailsScreen = ({route, navigation}) => {
                     if(validate(data.designation)){
                       if (data.address1.length !=0) {
                           if (validate(data.state)) {
-                            if (data.areaCode.length ==6) {
-                              if(data.city.length != 0){
+                           if (validate(data.city)) {
+                              if (validate(data.areaCode)) {
                                 if (data.businessContactNo.length == 10) {
+                                   if (validate(data.businessDomain)) {
+                                  console.log("data...", data)
 
                                   signup(route.params.fullName, route.params.contactNo, route.params.emailId, route.params.passwordCheck, data.businessName, data.registrationNo, data.businessType, data.ownerName,
-                                        data.designation, data.address1, data.address2, data.state,data.areaCode, data.city, data.businessContactNo, data.facebook, data.linkedin,
-                                        data.twitter, data.instagram, data.category )
+                                        data.designation,data.businessDomain, data.address1, data.address2, data.state,data.city, data.areaCode, data.businessContactNo, data.facebook, data.linkedin,
+                                        data.twitter, data.instagram)
 
                                     .then((res) => {
                                       console.log(res);
@@ -86,6 +131,7 @@ const BusinessDetailsScreen = ({route, navigation}) => {
                                               
                                               };
                                               foundUser();
+                                              setuser(res["merchant_details"]["access_token_db"])
                                               signUp(res["merchant_details"]["access_token_db"])
                                               
                                             }
@@ -102,10 +148,19 @@ const BusinessDetailsScreen = ({route, navigation}) => {
                                       
                                     })
                                 }
-                                
+                                  else{
+                                    ToastAndroid.showWithGravityAndOffset(
+                                      'Please enter Business Domain',
+                                      ToastAndroid.LONG,
+                                      ToastAndroid.BOTTOM,
+                                      25,
+                                      50
+                                    ); 
+                                  }
+                                }
                                  else {
                                   ToastAndroid.showWithGravityAndOffset(
-                                    'Please enter Correct Contact',
+                                    'Please enter Correct Contact Number',
                                     ToastAndroid.LONG,
                                     ToastAndroid.BOTTOM,
                                     25,
@@ -116,7 +171,7 @@ const BusinessDetailsScreen = ({route, navigation}) => {
                               }
                               else{
                                 ToastAndroid.showWithGravityAndOffset(
-                                  'Please enter City',
+                                  'Please enter Area Code',
                                   ToastAndroid.LONG,
                                   ToastAndroid.BOTTOM,
                                   25,
@@ -126,7 +181,7 @@ const BusinessDetailsScreen = ({route, navigation}) => {
                               
                             } else {
                                 ToastAndroid.showWithGravityAndOffset(
-                                'Please enter Area Code',
+                                'Please enter City',
                                 ToastAndroid.LONG,
                                 ToastAndroid.BOTTOM,
                                 25,
@@ -214,16 +269,10 @@ const BusinessDetailsScreen = ({route, navigation}) => {
 
        }
 
-      function onChooseCategory(categoryValue){
-        setData({
-          ...data,
-          category: categoryValue
-        });
-      }
-      
+     
       const validate = (text) => {
 
-          if (text.length= 1) {
+          if (text != 0) {
               return true;
           }
           else { 
@@ -244,7 +293,7 @@ const BusinessDetailsScreen = ({route, navigation}) => {
                 businessName: val,
                 check_businessNameInputChange: false
             });
-        }
+        }  
     }
 
       const registrationNoInputChange = (val) => {
@@ -278,6 +327,24 @@ const BusinessDetailsScreen = ({route, navigation}) => {
                 check_businessTypeInputChange: false
             });
         }
+
+    }
+
+     const businessDomainInputChange = (val) => {
+        if( val.length !== 0 ) {
+            setData({
+                ...data,
+                businessDomain: val,
+                check_businessDomainInputChange: true
+            });
+        } else {
+            setData({
+                ...data,
+                businessDomain: val,
+                check_businessDomainInputChange: false
+            });
+        }
+       
     }
       const ownerNameInputChange = (val) => {
         if( val.length !== 0 ) {
@@ -461,7 +528,15 @@ const instagramInputChange = (val) => {
         }
     }
 
-  const [pickerValue, setpickerValue] = useState("java");
+  if (isLoading){
+    return (
+      <View style = {{flex: 1,justifyContent: "center", backgroundColor:'#000'}}>
+     <ActivityIndicator size="large" color="#fff" />
+     </View>
+    )
+  }
+  
+  else{
 
     return (
       <SafeAreaView style={loginStyles.container}>
@@ -495,21 +570,16 @@ const instagramInputChange = (val) => {
                   />
                 </View> 
                 <View style={styles.dropdownSection}>
+        
                   <Picker
                     style={styles.picker} itemStyle={styles.pickerItem}
-                    selectedValue={data}
-                    label={"Types of Business"}
-                    onValueChange={ (itemValue) => businessTypeInputChange(itemValue)}
-                  > 
-                  <Picker.Item label="Types of Business" value =""/>
-                  <Picker.Item label="Flower" value ="Flower"/>
-                  <Picker.Item label="Pharmacy" value ="Pharmacy"/>
-                  <Picker.Item label="Documents" value ="Documents"/>
+                    selectedValue={businessTypeList}
+                    onValueChange={(itemValue, itemIndex) => businessTypeInputChange(itemValue)}>
+                    {businessTypeList.map((item, key)=>
+                    <Picker.Item label={item.bussiness_type_name} value={item.id} key={item.id} />)}
                   </Picker>
                   
-                  <View style={styles.arrowWrapper}>
-                    <Text style={styles.arrow}>&#9660;</Text>
-                  </View>
+                 
                 </View>
                 <View style={loginStyles.action}>
                   <TextInput 
@@ -521,20 +591,27 @@ const instagramInputChange = (val) => {
                   />
                 </View> 
               <View style={styles.dropdownSection}>
+                  
                   <Picker
-                    style={[styles.picker]}
-                    selectedValue={data}
-                    onValueChange={ (itemValue) => designationInputChange(itemValue) }
-                  >   
-                  <Picker.Item label="Designation" value =""/>
-                  <Picker.Item label="Manager" value ="Manager"/>
-                  <Picker.Item label="Developer" value ="Developer"/>
-                  <Picker.Item label="Director" value ="Director"/>
+                    style={styles.picker} itemStyle={styles.pickerItem}
+                    selectedValue={designationList}
+                    onValueChange={(itemValue, itemIndex) => designationInputChange(itemValue)}>
+                    {designationList.map((item, key)=>
+                    <Picker.Item label={item.designation_name} value={item.id} key={item.id} />)}
                   </Picker>
-                 <View style={styles.arrowWrapper}>
-                    <Text style={styles.arrow}>&#9660;</Text>
-                  </View>
               </View>  
+
+              <View style={styles.dropdownSection}>
+                  
+                  <Picker
+                    style={styles.picker} itemStyle={styles.pickerItem}
+                    selectedValue={businessDomainList}
+                    onValueChange={(itemValue, itemIndex) => businessDomainInputChange(itemValue)}>
+                    {businessDomainList.map((item, key)=>
+                    <Picker.Item label={item.category_name} value={item.id} key={item.id} />)}
+                  </Picker>
+              </View>  
+
                <Text style={styles.text_header}>Address</Text>      
                 <View style={loginStyles.action}>
                   <TextInput 
@@ -555,7 +632,7 @@ const instagramInputChange = (val) => {
                   />
                 </View>
               <View style={styles.dropdownSection}>
-                  <Picker
+                  {/* <Picker
                     style={styles.picker}
                     selectedValue={data}
                     onValueChange={(itemValue) => stateInputChange(itemValue)}
@@ -567,30 +644,40 @@ const instagramInputChange = (val) => {
                   </Picker>  
                    <View style={styles.arrowWrapper}>
                     <Text style={styles.arrow}>&#9660;</Text>
-                  </View>              
+                  </View>               */}
+
+                  <Picker
+                    style={styles.picker} itemStyle={styles.pickerItem}
+                    selectedValue={stateList}
+                    onValueChange={(itemValue, itemIndex) => stateInputChange(itemValue)}>
+                    {stateList.map((item, key)=>
+                    <Picker.Item label={item.state_name} value={item.id} key={item.id} />)}
+                  </Picker>
               </View>
 
-              <View style={{ flexDirection: 'row'}}>  
-               <View style={[styles.columnSection,{marginRight:'5%'}]}>
-                  <TextInput 
-                      placeholder="Area Code"
-                      placeholderTextColor = "#fff"
-                      style={styles.sectionText}
-                      autoCapitalize="none"
-                      keyboardType="numeric"
-                      onChangeText={(val) => areaCodeInputChange(val)}
-                  />
+              <View style={styles.dropdownSection}>
+
+                  <Picker
+                    style={styles.picker} itemStyle={styles.pickerItem}
+                    selectedValue={cityList}
+                    onValueChange={(itemValue, itemIndex) => cityInputChange(itemValue)}>
+                    {cityList.map((item, key)=>
+                    <Picker.Item label={item.city_name} value={item.id} key={item.id} />)}
+                  </Picker>
+
+
                 </View>  
-                <View style={[styles.columnSection,{marginLeft:'5%'}]}>
-                  <TextInput 
-                      placeholder="City"
-                      placeholderTextColor = "#fff"
-                      style={styles.sectionText}
-                      autoCapitalize="none"
-                      onChangeText={(val) => cityInputChange(val)}
-                  />
+                <View style={styles.dropdownSection}>
+
+                  <Picker
+                    style={styles.picker} itemStyle={styles.pickerItem}
+                    selectedValue={areaCodeList}
+                    onValueChange={(itemValue, itemIndex) => areaCodeInputChange(itemValue)}>
+                    {areaCodeList.map((item, key)=>
+                    <Picker.Item label={item.areacode} value={item.id} key={item.id} />)}
+                  </Picker>
                 </View>
-              </View>  
+
               <View style={loginStyles.action}>
                   <TextInput 
                       placeholder="Contact Number"
@@ -601,8 +688,7 @@ const instagramInputChange = (val) => {
                       onChangeText={(val) => businessContactNoInputChange(val)}
                   />
                 </View>
-              <Text style={styles.text_header}>Link Social Accounts</Text>
-
+          <Text style={styles.text_header}>Link Social Accounts</Text>
 
             <View style ={ styles.inputSection}>
               <TextInput style={{flex:1, color:'#fff'}} 
@@ -646,81 +732,8 @@ const instagramInputChange = (val) => {
               style={styles.icon}         
             />
             </View>
-              <Text style={styles.text_header}>Select Category</Text>
-            <View>
-              <TouchableOpacity onPress={() => onChooseCategory('Pharmacy')}>
-              <Card style={styles.card}>
-                <View style={{ flexDirection: 'row',marginTop:-10}}>  
-                
-                  <View style={[styles.cardSection,{flex: 2,}]}>               
-                    <Text style={{fontSize: 24,fontWeight: 'bold',color: Colors.white,}}>
-                    Pharmacy</Text>
-                    <Text style={{fontSize: 15,color: Colors.white,}}>
-                    Lorem ipsum dolor sit amet</Text>
-                  </View>  
-                  <View style={[styles.cardSection,{flex:1}]}>
-                      <Image 
-                        source={images.pills}
-                        style={styles.imageCategory}       
-                      />
-                  </View>
-                </View>
-                </Card>
-              </TouchableOpacity>
-
-              <TouchableOpacity onPress={() => onChooseCategory('Flowers')}>
-                <Card style={styles.card}>
-                <View style={{ flexDirection: 'row',marginTop:-10}}>  
-                
-                  <View style={[styles.cardSection,{flex: 2,}]}>               
-                    <Text style={{fontSize: 24,fontWeight: 'bold',color: Colors.white,}}>
-                    Flowers</Text>
-                    <Text style={{fontSize: 15,color: Colors.white,}}>
-                    Lorem ipsum dolor sit amet</Text>
-                  </View>  
-                  <View style={[styles.cardSection,{flex:1}]}>
-                      <Image 
-                        source={images.flowers}
-                        style={styles.imageCategory}       
-                      />
-                  </View>
-                </View>
-                </Card>
-              </TouchableOpacity>
-
-              <TouchableOpacity onPress={() => onChooseCategory('Documents')}>
               
-                <Card style={styles.card}>
-                <View style={{ flexDirection: 'row',marginTop:-10}}>  
-                
-                  <View style={[styles.cardSection,{flex: 2}]}>               
-                    <Text style={{fontSize: 24,fontWeight: 'bold',color: Colors.white,}}>
-                    Documents</Text>
-                    <Text style={{fontSize: 15,color: Colors.white,}}>
-                    Lorem ipsum dolor sit amet</Text>
-                  </View>  
-                  <View style={[styles.cardSection,{flex:1}]}>
-                      <Image 
-                        source={images.checklist}
-                        style={styles.imageCategory}       
-                      />
-                  </View>
-                </View>
-                </Card>
-              </TouchableOpacity>
-            </View>  
               <View style={{alignItems:'center'}}>
-                {/* <TouchableOpacity
-                    onPress={() => onSignup()}
-                    style={[styles.signIn, {
-                        borderColor: '#fff',
-                        borderWidth: 1,                        
-                    }]}
-                >
-                    <Text style={[styles.buttontext, {
-                        color: '#fff'
-                    }]}>Sign up</Text>
-                </TouchableOpacity>    */}
                 
                 <Button style={[loginStyles.submit,{marginTop:30,}]} onPress={() => onSignup()}>
                   <Text style={{color: '#fff', fontSize:17}}>Sign Up</Text>     
@@ -740,6 +753,7 @@ const instagramInputChange = (val) => {
 
       </SafeAreaView>      
     );
+  }  
 };
 
 export default BusinessDetailsScreen;

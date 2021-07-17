@@ -1,24 +1,25 @@
 import * as Constants from "../constants/urls";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {getuser} from '../constants/tokenHandler'
 
-export const getClientList = async () => {
-  try {
-    const value = await AsyncStorage.getItem('userToken')
-        if(value !== null) {
+export const getClientList =() => {
+    token = null;
+    token = getuser()
+    console.log('token',token)
     const URL = Constants.BASE_URL+Constants.MERCHANT_ORDER+Constants.CLIENT_LIST;
-    let response = await fetch(URL,{
+    return fetch(URL,{
       headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
-            'Authorization': value,
+            'Authorization': token,
           },
+    })
+    .then((response) => response.json())
+    .then((json) => {
+      return json;
+    })
+    .catch((error) => {
+      console.error("error...",error);
     });
-    let json = await response.json();
-    return json;
-  }
-  } catch (error) {
-    console.error(error);
-  }
 };
 
 
@@ -39,14 +40,16 @@ export const getTimeSlot = () => {
     });
 };
 
-export const createPickUp =(orderType,name,email,clientName,medicineName,quantity,address1,address2,state,city,areaCode,
+export const createPickUp =(orderType,name,clientName,medicineName,quantity,address1,address2,state,city,areaCode,
                             phoneNo,paymentType,cashAmount,paidPharmacy,paidIncuranceCompany,pickupdate,timeSlot,
-                            deliveryInstructions,payTime,token) =>{
+                            deliveryInstructions) =>{
+  
+    token = null;
+    token = getuser()
   const URL = Constants.BASE_URL+Constants.MERCHANT_ORDER+Constants.ORDER_CREATE;
   let formdata = new FormData();
     formdata.append("order_type",orderType)
-    formdata.append("client_email",name)
-    formdata.append("client_name",email)
+    formdata.append("client_name",name)
     formdata.append("client_id", clientName)
     formdata.append("medicine_name",medicineName)
     formdata.append("qty",quantity)
@@ -63,8 +66,7 @@ export const createPickUp =(orderType,name,email,clientName,medicineName,quantit
     formdata.append("order_date",pickupdate)
     formdata.append("order_timeslot_id",timeSlot)
     formdata.append("delivery_instruction", deliveryInstructions)
-    formdata.append("pay_type",payTime)
-    
+    console.log('form data...',formdata)
   return fetch(URL, {
         method: 'POST',
         headers: {
@@ -73,6 +75,7 @@ export const createPickUp =(orderType,name,email,clientName,medicineName,quantit
             'Authorization': token,
           },
         body: formdata  
+        
     })
     .then((response) => response.json()).then((json) => {
         console.log("resposne",json)

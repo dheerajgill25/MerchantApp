@@ -1,11 +1,9 @@
 import React from'react';
-import { View, StyleSheet,TouchableOpacity } from 'react-native';
+import { View, StyleSheet,TouchableOpacity,Text } from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import UpcomingPickups from './UpcomingPickups';
 import SuccessfulDeliveries from './SuccessfulDeliveries';
 import ReturnCancelation from './ReturnCancelation';
-import Animated from 'react-native-reanimated';
-
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -13,7 +11,7 @@ const Tab = createMaterialTopTabNavigator();
 const TabNavigator = () => (
    
   <Tab.Navigator tabBar={props => <MyTabBar {...props} />}>
-    <Tab.Screen name="Upcoming Pickups" component={UpcomingPickups}  />
+    <Tab.Screen name="Upcoming Pickups" component={UpcomingPickups} />
     <Tab.Screen name="Successful Deliveries" component={SuccessfulDeliveries} />
     <Tab.Screen name="Return Cancelation" component={ReturnCancelation} />
   </Tab.Navigator>
@@ -22,7 +20,7 @@ const TabNavigator = () => (
 
 export default TabNavigator;
 
-function MyTabBar({ state, descriptors, navigation, position }) {
+function MyTabBar({ state, descriptors, navigation }) {
   return ( 
       <View style={styles.tabSection}>
         {state.routes.map((route, index) => {
@@ -63,9 +61,9 @@ function MyTabBar({ state, descriptors, navigation, position }) {
                 testID={options.tabBarTestID}
                 onPress={onPress}
                 onLongPress={onLongPress}
-                style={ styles.tab }
-            >
-                <Animated.Text style= {styles.tabText}>{label}</Animated.Text>
+               style={isFocused ? styles.focus_button : styles.button} >
+
+                <Text style={isFocused ? styles.focus_textStyle : styles.TextStyle}> {label} </Text>
             </TouchableOpacity>
             );
         })}
@@ -74,9 +72,10 @@ function MyTabBar({ state, descriptors, navigation, position }) {
 }
 const styles = StyleSheet.create({
     tabSection:{
+        padding:10,
         flexDirection:'row',
-        paddingVertical: 10,
         backgroundColor: '#333',
+        height:67,
     },
 
     tab:{
@@ -86,11 +85,38 @@ const styles = StyleSheet.create({
         alignItems:'center',
         
         },
+    button: {
+        paddingTop:5,
+        paddingBottom:5,
+        backgroundColor: '#333',
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        borderRightWidth:2,
+        borderColor:'#fff',
+        flex: 1,
+  },
 
-    tabText:{
-        fontSize:15,
-        color:'#fff',
-        textAlign:"center",
+    focus_button: {
+        paddingTop:5,
+        paddingBottom:5,
+        backgroundColor: '#666',
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        borderRightWidth:2,
+        borderColor:'#fff',
+        flex: 1,
     },
+    
+    TextStyle:{
+        color:'#FFFFFF',
+        textAlign:'center',
+        fontSize: 15
+    },
+    
+    focus_textStyle:{
+        color:'#fff',
+        textAlign:'center',
+        fontSize: 15
+    }
 
     });

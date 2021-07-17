@@ -5,6 +5,8 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import ProfileScreen from './profileScreen';
 import editProfileScreen from './editProfileScreen';
 
+
+
 const ProfileStack = createStackNavigator();
 
 const ProfileStackScreen = ({navigation}) => (
@@ -15,15 +17,17 @@ const ProfileStackScreen = ({navigation}) => (
         headerTitleStyle: {
         fontWeight: 'bold'
         },
-        headerLeft: () => (
-           <Icon.Button name="ios-menu" size={25} backgroundColor="#000" onPress={() => navigation.openDrawer()}></Icon.Button>
-        ),
+        // headerLeft: () => (
+        //    <Icon.Button name="ios-menu" size={25} backgroundColor="#000" onPress={() => navigation.openDrawer()}></Icon.Button>
+        // ),
         headerRight: () => (
             <FontAwesome.Button name="bell" size={20} backgroundColor="#000" onPress={() => {}}></FontAwesome.Button>
         )
     }}>
         <ProfileStack.Screen name="ProfileScreen" component={ProfileScreen} options={{title:'Your Profile',}} />
         <ProfileStack.Screen name="editProfileScreen" component={editProfileScreen} options={{title:'Edit Profile',}} />
+        
+
 </ProfileStack.Navigator>
 );
 
