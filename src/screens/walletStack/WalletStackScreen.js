@@ -9,7 +9,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 const WalletStack = createStackNavigator();
 
-const WalletStackScreen = ({navigation}) => (
+const WalletStackScreen = (props,{navigation}) => (
 
 <WalletStack.Navigator screenOptions={{
         headerStyle: {
@@ -21,10 +21,11 @@ const WalletStackScreen = ({navigation}) => (
         // headerLeft: () => (
         //     <Icon.Button name="ios-menu" size={25} backgroundColor="#333" onPress={() => navigation.openDrawer()}></Icon.Button> ),
         headerRight: () => (
-            <FontAwesome.Button name="bell" size={20} backgroundColor="#333" onPress={() => {}}></FontAwesome.Button>)
+            <FontAwesome.Button name="bell" size={20} backgroundColor="#333" onPress={() =>  props.navigation.navigate('Notifications')}></FontAwesome.Button>)
     }}>
 
         <WalletStack.Screen name="Main" component={Main} options={{title:'Wallet',}}/>
+        
         
 </WalletStack.Navigator>
 );

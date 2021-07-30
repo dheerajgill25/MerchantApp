@@ -10,11 +10,12 @@ const OrderDropOff = () => {
   const[dropUpcomingList, setDropUpcomingList] = useState([]);
   const [dropcompletedList, setDropCompletedList] = useState([]);
   const [isLoading, setLoading] = useState(true);
+  const [value,  setValue] =useState([]);
 
    
   useFocusEffect(
     React.useCallback(() => {
-      const intervalId= setInterval(()=> OrderListing(), 15000)
+      const intervalId= setInterval(()=> OrderListing(), 5000)
 
       console.log('dropoff was focused');
       // Do something when the screen is focused
@@ -41,6 +42,7 @@ const OrderDropOff = () => {
         else {
           setDropUpcomingList(res.upcoming_pickup_list);
           setDropCompletedList(res.completed_pickup_list);
+          setValue(res)
           };   
           setLoading(false);   
       }
@@ -130,13 +132,19 @@ const OrderDropOff = () => {
     
     <SafeAreaView style={styles.container}>
     <View style= {{marginTop:60, flex:4,marginHorizontal:17,}}> 
-      <Text style={{justifyContent:'center', textAlign: 'center',color:'#fff',fontSize:16}}>Upcoming</Text>
-     <FlatList
-        data={dropUpcomingList}
-        renderItem={renderItem}
-        keyExtractor={item => item.orderId}
-        
-      />
+      <Text style={{justifyContent:'center', textAlign: 'center',color:'#fff',fontSize:16,marginVertical:5}}>Upcoming</Text>
+      {value.no_record_upcoming_pickup_list =='0'?  
+      <FlatList
+          data={dropUpcomingList}
+          renderItem={renderItem}
+          keyExtractor={item => item.orderId}
+          
+        />
+         :
+              <View style={{flex:4,alignItems:'center',justifyContent:'center'}}>
+                <Text style={{color:'#fff'}}>No Records</Text>
+              </View>
+        }
     </View>  
     <View style={{flexDirection: 'row', alignItems: 'center',marginVertical:10, marginHorizontal:10}}>
       <View style={{flex: 1, height: 1, backgroundColor: '#fff'}} />
@@ -146,6 +154,7 @@ const OrderDropOff = () => {
       <View style={{flex: 1, height: 1, backgroundColor: '#fff'}} />
     </View>
 
+     {value.no_record_completed_pickup_list =='0'?  
     <View style= {{ flex:3,marginHorizontal:17,}}> 
      <FlatList
         data={dropcompletedList}
@@ -154,6 +163,11 @@ const OrderDropOff = () => {
         ListFooterComponent ={<View style={{height:70}}></View>}
       />
     </View>  
+     :
+          <View style={{flex:3,alignItems:'center',justifyContent:'center'}}>
+            <Text style={{color:'#fff'}}>No Records</Text>
+          </View>
+    }
     
     </SafeAreaView>
   )

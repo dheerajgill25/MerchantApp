@@ -1,108 +1,122 @@
-import React from 'react';
+import React,{useState,useEffect} from 'react';
 import { 
   View, 
-  Text, 
-  Button,
+  Text,
   StatusBar,
   TextInput, 
   StyleSheet,
   Image,
   TouchableOpacity,
   Dimensions, 
+  ActivityIndicator,
+  SafeAreaView,
 } from 'react-native';
 
 import Card from '../../components/card';
+import {getWalletDetails} from '../../services/wallet';
+import Button from '../../components/button';
 
 
 const WalletOutstanding = ({navigation}) => {
+
+    const[data, setData] = useState([]);
+    const [isLoading, setLoading] = useState(true);
+
+    useEffect(() => {
+     OrderListing()
+    }, [])  
+    
+
+    function OrderListing(){
+      getWalletDetails()  
+        .then((res) => {
+          if (res.code == 200){
+              if (res.success == "false"){
+                alert(res.message)
+              }
+            else {
+              setData(res);
+              };   
+              setLoading(false);   
+          }
+          else {
+              ToastAndroid.showWithGravityAndOffset(
+              res.message,
+              ToastAndroid.LONG,
+              ToastAndroid.BOTTOM,
+              25,
+              50
+              );
+          }
+        })     
+    }
+
+  if (isLoading){
     return (
-      <View style={styles.container}>
+      <View style = {{flex: 1,justifyContent: "center", backgroundColor:'#000'}}>
+       <StatusBar backgroundColor='#000' barStyle="light-content"/>
+        <ActivityIndicator size="large" color="#fff" />
+     </View>
+    )
+  }
+  else{
+
+    return (
+      <SafeAreaView style={styles.container}>
         <StatusBar backgroundColor='#000' barStyle="light-content"/>
-          
-        <View style={{ flexDirection: 'row',backgroundColor:'#333',justifyContent: 'space-between', alignItems: 'center',}}>  
-          <View style={[styles.columnSection,]}>               
-            <Text style= {{fontSize: 18, justifyContent: 'center', color:'grey', }}>
-              Total Transactions</Text>
+        <View style={{ flexDirection: 'row',backgroundColor:'#333',justifyContent: 'space-between',height:50, alignItems:'center'}}>  
+          <View style={{marginHorizontal:15,flexDirection:'column'}}>               
+            <Text style= {{fontSize: 18, color:'grey', }}>Total Transactions</Text>
           </View>  
 
-          <View style={[styles.columnSection,]}>
-            <Text style= {{fontSize: 20, color: '#fff' ,textAlign: 'right', }}>
-              $12,258.00</Text>
+          <View style={{marginHorizontal:15,flexDirection:'column'}}>
+            <Text style= {{fontSize: 20, color: '#fff' , }}>
+              ${data.total_transaction}</Text>
           </View>
         </View>
 
         <Card style={styles.card}>
-          <View style={{ flexDirection: 'row',marginHorizontal:-8,marginVertical:-5,}}>      
-            <View style={[styles.cardSection,{flex: 1,alignItems: 'flex-start',}]}>               
-              <Text style={{fontSize: 17,color: 'grey',}}>
-              Total Outstanding</Text>
-            </View>  
-            <View style={[styles.cardSection,{flex:1}]}>
-              <Text style= {{fontSize: 21, color: '#fff' ,textAlign: 'right', }}>
-                $12,258.00</Text>
-            </View>
-          </View>
-          <View style={{ flexDirection: 'row',marginHorizontal:-8,marginVertical:15,}}>      
-              <View style={[styles.cardSection,{flex: 1,alignItems: 'flex-start',}]}>               
-                <Text style={{fontSize: 15,color: 'grey',}}>
-                Next Payment Cycle</Text>
-              </View>
-          </View>
-          <View style={{ flexDirection: 'row',marginHorizontal:-8,}}>      
-              <View style={[styles.cardSection,{flex: 1,alignItems: 'flex-start',}]}>               
-                <Text style={{fontSize: 18,color: 'grey',}}>
-                05 Jan 2021</Text>
-              </View>
-          </View>
-
-          <View style={{marginHorizontal:-8,marginVertical:10, flex:1,alignSelf: "center",flexDirection:'row'}}>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('sample')}
-            style={styles.submit}>
-            <Text style={{color: '#fff', fontSize:17}}>Pay Now</Text>
-          </TouchableOpacity> 
-          </View>
-
-        </Card>
         
-      </View>
-    );
+          <View style={{flexDirection:'row',justifyContent:'space-between'}}>
 
+            <View style={{flexDirection:'column'}}>
+            <Text style={{fontSize: 17,color: 'grey',}}>Total Outstanding</Text>
+            <Text style={{fontSize: 15,color: 'grey',marginVertical:7}}>Next Payment Cycle</Text>
+            <Text style={{fontSize: 18,color: 'grey',marginVertical:4}}> {data.next_cycle_date}</Text>
+            </View>
+
+            <View style={{flexDirection:'column'}}>
+              <Text style= {{fontSize: 21, color: '#fff' ,textAlign: 'right', }}>${data.total_outstanding}</Text>
+            </View>
+
+          </View>
+
+          <Button style={styles.submit} onPress={() => {}}>
+                <Text style={{color: '#fff', fontSize:16}}>Pay Now</Text>     
+          </Button> 
+        </Card>
+    </SafeAreaView>  
+    );
+  }
 };
 
 
 export default WalletOutstanding;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1, 
+  container: { 
     backgroundColor: '#000',
-    width:'100%',
-  
-  },
-  columnSection:{
-    flexDirection: 'column',
-    marginVertical:17,
-    marginHorizontal:15,
   },
   card: {
-    height: '68%',
     backgroundColor: '#333',
-    alignItems: 'flex-start',
-    margin:22,
+    margin:20,
   }, 
-  cardSection:{
-    justifyContent: 'flex-end',
-    flexDirection: 'column',  
-  },
-  submit: {
-    width: '60%',
-    height: 50,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginVertical:20,
-    borderRadius: 10,
+  submit:{
     borderColor: '#fff',
-    borderWidth: 2, 
-    },
+    width:'55%',
+    alignSelf:'center', 
+    justifyContent:'center',
+    padding: 8,
+    height:45,
+  },
 });

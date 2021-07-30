@@ -1,80 +1,101 @@
-import React from 'react';
-import { SafeAreaView, View, FlatList, StyleSheet, Text, StatusBar ,Button, TouchableOpacity, ScrollView} from 'react-native';
+import React,{useState,useEffect} from 'react';
+import { SafeAreaView, View, FlatList, StyleSheet, Text, StatusBar,TouchableOpacity, ScrollView,ActivityIndicator} from 'react-native';
 
 import styles from './FlatListStyle';
+import {getWalletDetails} from '../../services/wallet'
 
-const PickupDetails = [
-  {
-    orderId: 'bd7acbea-c1b1',
-    orderDate:'05 Jan 2021',
-    orderTime:'03:24 PM',
-    orderAmount:250,
-  },
-  {
-    orderId: '3ac68afc-c605',
-    orderDate:'05 Jan 2021',
-    orderTime:'03:24 PM',
-    orderAmount:250,
-  },
-  {
-    orderId: '58694a0f-3da1',
-    orderDate:'05 Jan 2021',
-    orderTime:'03:24 PM',
-    orderAmount:250,
-  },
-   {
-    orderId: '58694a0f-3da2',
-    orderDate:'05 Jan 2021',
-    orderTime:'03:24 PM',
-    orderAmount:250,
-  },
-  {
-    orderId: '58694a0f-3da3',
-    orderDate:'05 Jan 2021',
-    orderTime:'03:24 PM',
-    orderAmount:250,
-  },
-];
-  
-const Item = ({ orderId, orderDate, orderAmount, orderTime }) => (
+const SuccessfulDeliveries = (props,{navigation,route}) => {
+
+  const[data, setData] = useState([]);
+  const [isLoading, setLoading] = useState(true);
+  const [value, setValue]=useState("");
+
+    useEffect(() => {
+     OrderListing()
+    }, [])  
+    
+
+    function OrderListing(){
+      getWalletDetails()  
+        .then((res) => {
+          if (res.code == 200){
+              if (res.success == "false"){
+                alert(res.message)
+              }
+            else {
+              setData(res.successful_deliveries);
+               setValue(res)
+              };   
+              setLoading(false);   
+          }
+          else {
+              ToastAndroid.showWithGravityAndOffset(
+              res.message,
+              ToastAndroid.LONG,
+              ToastAndroid.BOTTOM,
+              25,
+              50
+              );
+          }
+        })     
+    }
+
+
+  const Item = ({ id,orderId, orderDate, orderAmount, orderTime }) => (
   
   <View style ={styles.listItem}>
-    <View style={{ flexDirection: 'row'}}>
+    <View style={{ flexDirection: 'row',justifyContent:'space-between'}}>
     <Text style ={styles.order}> Delivered Order : {orderId}</Text>
      <Text style ={[styles.amount,{color:'green'}]}>${orderAmount}</Text>
-     
     </View>
-      <View style={{ flexDirection: 'row'}}>
+    <View style={{ flexDirection: 'row',justifyContent:'space-between'}}>
       <Text style ={styles.date}> {orderDate}</Text>
-      <Text style ={styles.time}> {orderTime}</Text>
-     
-     </View>
+      <TouchableOpacity style= {styles.reOrder} onPress={()=>props.navigation.navigate('ReOrderScreen',{id})}>
+      <Text style={{color:'#fff'}}>Re-order</Text>
+      </TouchableOpacity>
+    </View>
        
     </View>
 );
 
-const SuccessfulDeliveries = () => {
   const renderItem = ({ item }) => (
-    <Item 
-      orderId={item.orderId}
-      orderDate={item.orderDate}
-      orderTime={item.orderTime}
-      orderAmount={item.orderAmount} />
+   <Item 
+      id={item.id}
+      orderId={item.orderID}
+      orderDate={item.transaction_date}
+      orderAmount={item.order_amount} />
   );
 
+   if (isLoading){
+    return (
+      <View style = {{flex: 1,justifyContent: "center", backgroundColor:'#000'}}>
+       <StatusBar backgroundColor='#000' barStyle="light-content"/>
+        <ActivityIndicator size="large" color="#fff" />
+     </View>
+    )
+  }
+  else{
+
+
   return (
-    <SafeAreaView style={styles.container}>
-    <ScrollView>
+  <SafeAreaView style={styles.container}>
     <View style= {{marginHorizontal:17,}}> 
+     {value.no_record_successful_deliveries =='0'?
       <FlatList
-        data={PickupDetails}
+        data={data}
         renderItem={renderItem}
-        keyExtractor={item => item.orderId}
+        keyExtractor={item => item.id}
+        ListFooterComponent ={<View style={{height:70}}></View>}
       />
+      :
+              <View style={{flex:1,alignItems:'center',justifyContent:'center'}}>
+                <Text style={{color:'#fff'}}>No Returned or Canceled Order</Text>
+              </View>
+        } 
     </View>  
-    </ScrollView>
     </SafeAreaView>
   );
+  }
 }
 
 

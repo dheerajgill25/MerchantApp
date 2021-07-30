@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import Button from '../../components/button';
 import styles from './homeStyle';
 import { Picker } from '@react-native-picker/picker';
-import {getClientList} from '../../services/createOrder'; 
+import {getClientList} from '../../services/orders'; 
 import { getStateList } from "../../services/auth";
 
 const StandardOrder = ({navigation}) => {
@@ -15,7 +15,7 @@ const StandardOrder = ({navigation}) => {
     const [data, setData] = useState({
       orderType:2,
       name:'',
-      clientName : '',
+      clientEmail : '',
       medicineName:'',
       quantity:'',
       address1:'',
@@ -295,13 +295,13 @@ const StandardOrder = ({navigation}) => {
     if( val.length !== 0 ) {
         setData({
             ...data,
-            clientName: val,
+            clientEmail: val,
             check_clientNameInputChange: true
         });
     } else {
         setData({
             ...data,
-            clientName: val,
+            clientEmail: val,
             check_clientNameInputChange: false
         });
     }
@@ -316,7 +316,7 @@ const StandardOrder = ({navigation}) => {
   }
 
   function onNavigate() {
-    navigation.navigate('SelectTimeSlot',{orderType:data.orderType, name:data.name,clientName:data.clientName,medicineName:data.medicineName,quantity:data.quantity,
+    navigation.navigate('SelectTimeSlot',{orderType:data.orderType, name:data.name,clientEmail:data.clientEmail,medicineName:data.medicineName,quantity:data.quantity,
                           address1:data.address1, address2:data.address2, state:data.state, areaCode: data.areaCode,city:data.city, phoneNo:data.phoneNo, 
                           paymentType:data.paymentType, cashAmount:data.cashAmount, paidPharmacy:data.paidPharmacy, paidIncuranceCompany:data.paidIncuranceCompany})
     
@@ -421,7 +421,7 @@ const StandardOrder = ({navigation}) => {
                  
                   <Picker
                     style={styles.picker} itemStyle={styles.pickerItem}
-                    selectedValue={data.clientName}
+                    selectedValue={data.clientEmail}
                     onValueChange={(itemValue, itemIndex) => clientlistInputchange(itemValue)}>
                     {clientList.map((item, key)=>
                     <Picker.Item label={item.full_name} value={item.id} key={item.id} />)}

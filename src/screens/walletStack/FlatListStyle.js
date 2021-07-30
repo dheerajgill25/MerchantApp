@@ -12,8 +12,6 @@ const styles = StyleSheet.create({
  
 
     listItem:{
-        alignItems: 'flex-start',
-        justifyContent: 'space-between',
         borderBottomColor:'#fff',
         borderBottomWidth:2,
         width: '100%',
@@ -29,19 +27,25 @@ const styles = StyleSheet.create({
     },
 
     date:{
-        flex :0.3,
+        marginTop: 5,
         alignItems:'flex-start',
-        color:'grey'
+        color:'grey',
+        flexDirection: 'column',
     },
-    time:{
-        flex :0.5,
-        alignItems:'flex-start',
-        color:'grey'
+    reOrder:{
+        alignItems:'flex-end',
+        fontSize:15,
+        flexDirection: 'column',
+        paddingHorizontal: 6,
+        paddingVertical: 2,
+        backgroundColor: 'grey',
+        borderRadius: 10,
+        alignSelf: 'center',
     },
     amount:{
-        flex :0.5,
         alignItems:'flex-end',
         fontSize:16,
+        flexDirection: 'column',
     },
     buttonDesign:{
         backgroundColor:'grey',

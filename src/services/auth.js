@@ -1,5 +1,5 @@
 import * as Constants from "../constants/urls";
-import {getuser} from '../constants/tokenHandler';
+import {getuser,getnotifiToken} from '../constants/tokenHandler';
 
 
 export const emailCheck = (emailId) => {
@@ -27,6 +27,8 @@ export const signup = (fullName, contactNo, emailId, passwordCheck, businessName
                         designation,businessDomain, address1, address2, state,city, areaCode, businessContactNo, facebook, linkedin,
                         twitter, instagram) => {
     const URL = Constants.BASE_URL+Constants.SUB_URL+Constants.SIGN_UP;
+    deviceToken = null;
+    deviceToken = getnotifiToken()
     let formdata = new FormData();
     formdata.append("full_name", fullName)
     formdata.append("contact_no",contactNo)
@@ -48,6 +50,7 @@ export const signup = (fullName, contactNo, emailId, passwordCheck, businessName
     formdata.append("mer_linkedin",linkedin)
     formdata.append("mer_twitter",twitter)
     formdata.append("mer_instagram",instagram)
+    formdata.append("app_reg_token",deviceToken)
     console.log('formdata...',formdata)
     return fetch(URL, {
         method: 'POST',
@@ -66,10 +69,12 @@ export const signup = (fullName, contactNo, emailId, passwordCheck, businessName
 
 export const signin = (emailId, passwordCheck) => {
     const URL = Constants.BASE_URL+Constants.SUB_URL+Constants.Sign_In;
-
+    deviceToken = null;
+    deviceToken = getnotifiToken()
     let formdata = new FormData();
     formdata.append("email", emailId)
     formdata.append("password",passwordCheck)
+    formdata.append("app_reg_token",deviceToken)
     return fetch(URL, {
         method: 'POST',
         headers: {
@@ -141,3 +146,24 @@ export const logout = () => {
       console.error("error here", error );
     });
 };
+
+export const notification = () => {
+    token = null;
+    token = getuser()
+  const URL = Constants.BASE_URL+Constants.SUB_URL+Constants.NOTIFICATIONS; 
+  return fetch(URL,{
+      headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': token,
+          },
+    })
+    .then((response) => response.json())
+    .then((json) => {
+      return json;
+    })
+    .catch((error) => {
+      console.error("error here", error );
+    });
+};
+

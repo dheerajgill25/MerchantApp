@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "394039822132",
-    "project_id": "merchantapp-1b600",
-    "storage_bucket": "merchantapp-1b600.appspot.com"
+    "project_number": "399701990775",
+    "project_id": "smartboxmerchant-25348",
+    "storage_bucket": "smartboxmerchant-25348.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:394039822132:android:15581eac6c8e90dd528761",
+        "mobilesdk_app_id": "1:399701990775:android:e0b25f67db4ce8dbf1d572",
         "android_client_info": {
           "package_name": "com.merchantapp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "394039822132-mn5eddfuejuc5k454a965qf4f7rhrm2v.apps.googleusercontent.com",
+          "client_id": "399701990775-dvf16nb96g07fj5k21po7omiqn0sl5oo.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAsN4ig58PLgRCcr-fFuYAkDizcj2tZkrU"
+          "current_key": "AIzaSyCeYnESvbbbYLI2tItDtNGKXUJVyeBr1B0"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "394039822132-mn5eddfuejuc5k454a965qf4f7rhrm2v.apps.googleusercontent.com",
+              "client_id": "399701990775-dvf16nb96g07fj5k21po7omiqn0sl5oo.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

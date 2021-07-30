@@ -6,7 +6,7 @@ import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import Card from '../../components/card';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Button from '../../components/button';
-import { getTimeSlot,createPickUp } from '../../services/createOrder';
+import { getTimeSlot,createPickUp } from '../../services/orders';
 import {getuser} from '../../constants/tokenHandler'
 
 
@@ -91,7 +91,7 @@ const SelectTimeSlot = ({navigation,route}) => {
 
     function onCreatePickup(){
   
-      createPickUp(route.params.orderType,route.params.name,route.params.clientName,route.params.medicineName,route.params.quantity,
+      createPickUp(route.params.orderType,route.params.name,route.params.clientEmail,route.params.medicineName,route.params.quantity,
                   route.params.address1,route.params.address2,route.params.state,route.params.city,route.params.areaCode,route.params.phoneNo,route.params.paymentType,
                   route.params.cashAmount,route.params.paidPharmacy,route.params.paidIncuranceCompany,data.pickupDate,data.timeSlot,data.deliveryInstructions)
 
@@ -103,7 +103,7 @@ const SelectTimeSlot = ({navigation,route}) => {
           } 
           else {
           alert(res.message)
-          navigation.navigate('HomeScreen')
+          navigation.navigate('OrderDetails',{id:res.order_id})
           }
           }
 
@@ -174,13 +174,12 @@ const SelectTimeSlot = ({navigation,route}) => {
         </View>
       </TouchableOpacity>
           <View style={{justifyContent:'center'}}>
-
-          <FlatList
-            data={list}
-            renderItem={renderItem}
-            keyExtractor={item => item.id}
-            ListFooterComponent ={<View style={{height:30}}></View>}
-          />
+            <FlatList
+              data={list}
+              renderItem={renderItem}
+              keyExtractor={item => item.id}
+              ListFooterComponent ={<View style={{height:30}}></View>}
+            />
           </View>
         <View style={styles.action}>               
           <TextInput 

@@ -38,7 +38,7 @@ const SignInScreen = ({ navigation }) => {
 
     const onSignIn =() => {
        if(validate(data.emailId)){
-           if(data.passwordCheck.length == 8){
+           if(data.passwordCheck.length >7){
                     signin( data.emailId, data.passwordCheck )
 
                     .then((res) => {

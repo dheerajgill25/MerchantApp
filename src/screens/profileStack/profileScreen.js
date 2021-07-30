@@ -17,6 +17,7 @@ import profileStyles from './profileStyle';
 import {profileImage, getProfile} from '../../services/updateProfile';
 import ImagePicker from 'react-native-image-crop-picker';
 import{ AuthContext } from '../../components/context';
+import { Rating, AirbnbRating } from 'react-native-elements';
 import {logout} from '../../services/auth';
 
 const ProfileScreen = ({navigation}) => {
@@ -28,7 +29,7 @@ const ProfileScreen = ({navigation}) => {
 
     useFocusEffect(
     React.useCallback(() => {
-      const intervalId= setInterval(()=> ProfileGet(), 1000)
+      const intervalId= setInterval(()=> ProfileGet(), 2000)
 
       console.log('ProfileGet was focused');
       // Do something when the screen is focused
@@ -54,7 +55,6 @@ const ProfileScreen = ({navigation}) => {
                       alert(res.message)
                   } 
                   else {
-                    console.log(res)
                     setData(res.profile_details)
                     setImage(res.profile_details.profile_image)
                     setLoading(false)
@@ -78,8 +78,6 @@ const ProfileScreen = ({navigation}) => {
   }
 
   const onSuccess = (val) => {
-      console.log(val)
-
       profileImage(val)
           .then((res) => {            
               if (res.code == 200){
@@ -102,11 +100,11 @@ const ProfileScreen = ({navigation}) => {
       .then((res) => {            
         if (res.code == 200){
           if (res.success == "false"){
-              console.log(res.message)
+              console.log(res)
           } 
           else {
-              console.log("sign out")
-              signOut()
+              console.log(res)
+               signOut()
             }
         }
         else {
@@ -144,9 +142,21 @@ const ProfileScreen = ({navigation}) => {
           </View> 
         </TouchableOpacity> 
 
+        <View style ={{flexDirection:'row'}}>
+        <View style ={[profileStyles.editProfile,{alignSelf:'flex-start',}]}>
+          <AirbnbRating 
+            isDisabled={true}
+            showRating={false}
+            defaultRating={data.total_rating}
+            size={19}
+          /> 
+        </View>
+
          <TouchableOpacity style= {profileStyles.editProfile} onPress={() => navigation.navigate('editProfileScreen')}>
              <Icon name="edit" color={'#fff'} size={19}/>
          </TouchableOpacity>
+        </View>
+        
 
         <View style={{paddingHorizontal: 22,}}>
           <Text style={profileStyles.text_footer}>Name</Text>
@@ -270,7 +280,7 @@ const ProfileScreen = ({navigation}) => {
                 </View>  
                 <View style={[profileStyles.columnSection,{marginRight:10}]}>
                   <TouchableOpacity style={profileStyles.greyButton}
-                      onPress={() => {}}>
+                      onPress={() => navigation.navigate('HelpCenterList')}>
                       <Text style={{color: '#fff', fontSize:15}}>Help</Text>
                   </TouchableOpacity>
                 </View>

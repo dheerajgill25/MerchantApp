@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import Button from '../../components/button';
 import styles from './homeStyle';
 import { Picker } from '@react-native-picker/picker';
-import {getClientList} from '../../services/createOrder'; 
+import {getClientList} from '../../services/orders'; 
 import { getStateList } from "../../services/auth";
 
   const PriorityOrder = ({navigation}) => {
@@ -15,7 +15,7 @@ import { getStateList } from "../../services/auth";
   const [data, setData] = React.useState({
     orderType:1,
     name:'',
-    clientName : '',
+    clientEmail : '',
     medicineName:'',
     quantity:'',
     address1:'',
@@ -30,8 +30,8 @@ import { getStateList } from "../../services/auth";
     paidIncuranceCompany:0,
   });
 
-  const [clientList, setClientList]= React.useState([]);
-  const [businessTypeList, setBusinessTypeList] = useState([]);
+    const [clientList, setClientList]= React.useState([]);
+    const [businessTypeList, setBusinessTypeList] = useState([]);
     const [designationList, setDesignationList] = useState([]);
     const [stateList, setStateList] = useState([]);
     const [cityList, setCityList] = useState([]);
@@ -39,11 +39,7 @@ import { getStateList } from "../../services/auth";
 
   useEffect(() =>{
     StateList()
-
-    ClientList()
-
-    
-
+    ClientList() 
   }, []);
 
   function ClientList(){
@@ -282,13 +278,13 @@ import { getStateList } from "../../services/auth";
     if( val.length !== 0 ) {
         setData({
             ...data,
-            clientName: val,
+            clientEmail: val,
             check_clientNameInputChange: true
         });
     } else {
         setData({
             ...data,
-            clientName: val,
+            clientEmail: val,
             check_clientNameInputChange: false
         });
     }
@@ -303,7 +299,7 @@ import { getStateList } from "../../services/auth";
   }
 
   function onNavigate(){
-     navigation.navigate('SelectTimeSlot',{orderType:data.orderType, name:data.name,clientName:data.clientName,medicineName:data.medicineName,quantity:data.quantity,
+     navigation.navigate('SelectTimeSlot',{orderType:data.orderType, name:data.name,clientEmail:data.clientEmail,medicineName:data.medicineName,quantity:data.quantity,
                           address1:data.address1, address2:data.address2, state:data.state, areaCode: data.areaCode,city:data.city, phoneNo:data.phoneNo, 
                           paymentType:data.paymentType, cashAmount:data.cashAmount, paidPharmacy:data.paidPharmacy, paidIncuranceCompany:data.paidIncuranceCompany})
    
@@ -398,7 +394,7 @@ import { getStateList } from "../../services/auth";
                  
                   <Picker
                     style={styles.picker} itemStyle={styles.pickerItem}
-                    selectedValue={data.clientName}
+                    selectedValue={data.clientEmail}
                     onValueChange={(itemValue, itemIndex) => clientlistInputchange(itemValue)}>
                     {clientList.map((item, key)=>
                     <Picker.Item label={item.full_name} value={item.id} key={item.id} />)}

@@ -13,6 +13,7 @@ const profileStyles = StyleSheet.create({
     marginTop: 15,
   },
   editProfile:{ 
+    flex:0.5,
     flexDirection: 'column',
     alignItems: 'flex-end',
     marginHorizontal: 20,

@@ -1,6 +1,6 @@
 import React,{useEffect, useState} from 'react';
 import { View, Text, Button, StyleSheet, Alert,TouchableOpacity,ActivityIndicator,ToastAndroid } from 'react-native';
-import { getTimeSlot } from '../services/createOrder';
+import { getTimeSlot } from '../services/orders';
 
 const ExploreScreen = () => {
 const [isLoading, setLoading] = useState(true);  

@@ -1,10 +1,30 @@
 import * as Constants from "../constants/urls";
 import {getuser} from '../constants/tokenHandler'
 
+export const dashboard =() => {
+    token = null;
+    token = getuser()
+    const URL = Constants.BASE_URL+Constants.MERCHANT_ORDER+Constants.DASHBOARD;
+    return fetch(URL,{
+      headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': token,
+          },
+    })
+    .then((response) => response.json())
+    .then((json) => {
+      return json;
+    })
+    .catch((error) => {
+      console.error("error...",error);
+    });
+};
+
+
 export const getClientList =() => {
     token = null;
     token = getuser()
-    console.log('token',token)
     const URL = Constants.BASE_URL+Constants.MERCHANT_ORDER+Constants.CLIENT_LIST;
     return fetch(URL,{
       headers: {
@@ -40,7 +60,7 @@ export const getTimeSlot = () => {
     });
 };
 
-export const createPickUp =(orderType,name,clientName,medicineName,quantity,address1,address2,state,city,areaCode,
+export const createPickUp =(orderType,name,clientEmail,medicineName,quantity,address1,address2,state,city,areaCode,
                             phoneNo,paymentType,cashAmount,paidPharmacy,paidIncuranceCompany,pickupdate,timeSlot,
                             deliveryInstructions) =>{
   
@@ -50,7 +70,7 @@ export const createPickUp =(orderType,name,clientName,medicineName,quantity,addr
   let formdata = new FormData();
     formdata.append("order_type",orderType)
     formdata.append("client_name",name)
-    formdata.append("client_id", clientName)
+    formdata.append("client_id", clientEmail)
     formdata.append("medicine_name",medicineName)
     formdata.append("qty",quantity)
     formdata.append("street_addr", address1)
@@ -83,4 +103,47 @@ export const createPickUp =(orderType,name,clientName,medicineName,quantity,addr
     }).catch((error) => {
         console.error(error);
     });
+}
+
+export const details = (orderId) =>{
+  token = null;
+  token = getuser() 
+  const URL =Constants.BASE_URL+Constants.MERCHANT_ORDER+Constants.ORDER_DETAIL;
+  let formdata = new FormData();
+  formdata.append("order_id", orderId)
+  return fetch(URL, {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'multipart/form-data',
+          'Authorization': token,
+        },
+      body: formdata
+  })
+  .then((response) => response.json()).then((json) => {
+      console.log("json",json)
+      return json
+  }).catch((error) => {
+      console.error("error",error);
+  });
+}
+export const orderCancel = (orderId) =>{
+  token = null;
+  token = getuser() 
+  const URL =Constants.BASE_URL+Constants.MERCHANT_ORDER+Constants.CANCEL_ORDER;
+  let formdata = new FormData();
+  formdata.append("order_id", orderId)
+  return fetch(URL, {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'multipart/form-data',
+          'Authorization': token,
+        },
+      body: formdata
+  })
+  .then((response) => response.json()).then((json) => {
+      console.log("json",json)
+      return json
+  }).catch((error) => {
+      console.error("error",error);
+  });
 }

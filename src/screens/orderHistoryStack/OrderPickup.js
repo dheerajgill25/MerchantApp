@@ -10,6 +10,7 @@ const OrderPickup = () => {
   const[upcomingList, setUpcomingList] = useState([]);
   const [completedList, setCompletedList] = useState([]);
    const [isLoading, setLoading] = useState(true);
+   const [value,setValue] =useState([])
 
    
   useFocusEffect(
@@ -43,6 +44,7 @@ const OrderPickup = () => {
         else {
           setUpcomingList(res.upcoming_pickup_list);
           setCompletedList(res.completed_pickup_list);
+          setValue(res)
           };   
           setLoading(false);   
       }
@@ -134,12 +136,18 @@ const OrderPickup = () => {
     <SafeAreaView style={styles.container}>
     <View style= {{marginTop:60, flex:4,marginHorizontal:17,}}> 
       <Text style={{justifyContent:'center', textAlign: 'center',color:'#fff',fontSize:16}}>Upcoming</Text>
+       {value.no_record_upcoming_pickup_list =='0'?  
      <FlatList
         data={upcomingList}
         renderItem={renderItem}
         keyExtractor={item => item.orderId}
         
       />
+       :
+              <View style={{flex:4,alignItems:'center',justifyContent:'center'}}>
+                <Text style={{color:'#fff'}}>No Records</Text>
+              </View>
+        }
     </View>  
     <View style={{flexDirection: 'row', alignItems: 'center',marginVertical:10, marginHorizontal:10}}>
       <View style={{flex: 1, height: 1, backgroundColor: '#fff'}} />
@@ -148,7 +156,7 @@ const OrderPickup = () => {
         </View>
       <View style={{flex: 1, height: 1, backgroundColor: '#fff'}} />
     </View>
-
+     {value.no_record_completed_pickup_list =='0'?  
     <View style= {{ flex:3,marginHorizontal:17,}}> 
      <FlatList
         data={completedList}
@@ -156,7 +164,13 @@ const OrderPickup = () => {
         keyExtractor={item => item.orderId}
         ListFooterComponent ={<View style={{height:70}}></View>}
       />
-    </View>  
+    </View> 
+     :
+          <View style={{flex:3,alignItems:'center',justifyContent:'center'}}>
+            <Text style={{color:'#fff'}}>No Records</Text>
+          </View>
+    }
+     
     
     </SafeAreaView>
   )

@@ -91,3 +91,47 @@ export const updateEditProfile= (name, contactNo,email,address1,address2,state,c
         console.error(error);
     });
 };
+
+export const helpCenterList = () => {
+    token = null;
+    token = getuser()
+  const URL = Constants.BASE_URL+Constants.SUB_URL+Constants.HELP_CENTER_LIST; 
+  return fetch(URL,{
+      headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': token,
+          },
+    })
+    .then((response) => response.json())
+    .then((json) => {
+      return json;
+    })
+    .catch((error) => {
+      console.error("error here", error );
+    });
+};
+
+export const newEnquiry = (orderId, contactNo,enquiry) => {
+    const URL = Constants.BASE_URL+Constants.SUB_URL+Constants.NEW_ENQUIRY;
+      token = null;
+      token = getuser()
+    let formdata = new FormData();
+    formdata.append("orderID", orderId)
+    formdata.append("contact_no",contactNo)
+    formdata.append("query_msg",enquiry)
+    console.log(formdata)
+    return fetch(URL, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'multipart/form-data',
+            'Authorization': token,
+          },
+        body: formdata
+    })
+    .then((response) => response.json()).then((json) => {
+        return json
+    }).catch((error) => {
+        console.error('error',error);
+    });
+}
