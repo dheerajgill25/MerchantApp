@@ -18,7 +18,7 @@ import {emailCheck} from '../../services/auth';
 import images from '../../images';
 import loginStyles from './loginComponentsStyles';
 import Button from '../../components/button';
-import Toaster from 'services/toasterService';
+import Toaster from '../../services/toasterService';
 
 const SignInScreen = ({navigation}) => {
   const [data, setData] = React.useState({

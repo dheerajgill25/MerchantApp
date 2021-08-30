@@ -21,7 +21,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Button from '../../components/button';
 import {getTimeSlot, createPickUp} from '../../services/orders';
 import {getuser} from '../../constants/tokenHandler';
-import Toaster from 'services/toasterService';
+import Toaster from '../../services/toasterService';
 
 const SelectTimeSlot = ({navigation, route}) => {
   const [date, setDate] = useState('');

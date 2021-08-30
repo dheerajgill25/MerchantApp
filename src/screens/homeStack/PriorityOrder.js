@@ -23,7 +23,7 @@ import styles from './homeStyle';
 import {Picker} from '@react-native-picker/picker';
 import {getClientList} from '../../services/orders';
 import {getStateList} from '../../services/auth';
-import Toaster from 'services/toasterService';
+import Toaster from '../../services/toasterService';
 
 const PriorityOrder = ({navigation}) => {
   const [isModalVisible, setModalVisible] = useState(false);

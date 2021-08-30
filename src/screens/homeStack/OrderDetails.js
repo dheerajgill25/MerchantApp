@@ -12,7 +12,7 @@ import {
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {details, orderCancel} from '../../services/orders';
 import Button from '../../components/button';
-import Toaster from 'services/toasterService';
+import Toaster from '../../services/toasterService';
 
 const OrderScreen = ({navigation, route}) => {
   const [data, setData] = React.useState([]);

@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import styles from './FlatListStyle';
 import {getWalletDetails} from '../../services/wallet';
-import Toaster from 'services/toasterService';
+import Toaster from '../../services/toasterService';
 
 const ReturnCancelation = () => {
   const [data, setData] = useState([]);

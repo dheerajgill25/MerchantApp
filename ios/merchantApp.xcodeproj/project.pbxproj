@@ -14,6 +14,7 @@
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		ACBED964261DA6C0A8CEB6FB /* libPods-merchantApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BB925B76E7BA5FE8767BBDB6 /* libPods-merchantApp.a */; };
 		FAAE00E9683A1EE33EDB3410 /* libPods-merchantApp-merchantAppTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 40DFFF308C21038E07672541 /* libPods-merchantApp-merchantAppTests.a */; };
+		FD0F921626DCC92900140DC8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FD0F921526DCC92900140DC8 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +61,7 @@
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		FB2D284A7F20450685A5AA9E /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
 		FD0F914F26DCA8A800140DC8 /* merchantApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = merchantApp.entitlements; path = merchantApp/merchantApp.entitlements; sourceTree = "<group>"; };
+		FD0F921526DCC92900140DC8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		FE5DE9D20F05451FA1BF96C8 /* AntDesign.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = AntDesign.ttf; path = "../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -145,6 +147,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				FD0F921526DCC92900140DC8 /* GoogleService-Info.plist */,
 				13B07FAE1A68108700A75B9A /* merchantApp */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* merchantAppTests */,
@@ -285,6 +288,7 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				FD0F921626DCC92900140DC8 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -5,7 +5,7 @@ import Card from '../../components/card';
 import Button from '../../components/button';
 import Icon from 'react-native-vector-icons/Entypo';
 import {dashboard,orderCancel} from '../../services/orders';
-import Toaster from 'services/toasterService';
+import Toaster from '../../services/toasterService';
 
 const HomeScreen = ({navigation,route}) => {
 

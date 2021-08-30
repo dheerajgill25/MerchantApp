@@ -22,7 +22,7 @@ import images from '../../images';
 import loginStyles from './loginComponentsStyles';
 import Button from '../../components/button';
 import {setuser} from '../../constants/tokenHandler';
-import Toaster from 'services/toasterService';
+import Toaster from '../../services/toasterService';
 
 const SignInScreen = ({navigation}) => {
   const [data, setData] = React.useState({

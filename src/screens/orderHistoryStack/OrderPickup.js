@@ -4,7 +4,7 @@ import {useFocusEffect} from '@react-navigation/native';
 import {pickup} from '../../services/history';
 import styles from './OrderHistoryStyles';
 import Card from '../../components/card'
-import Toaster from 'services/toasterService';
+import Toaster from '../../services/toasterService';
 
 const OrderPickup = () => {
 

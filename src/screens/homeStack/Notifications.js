@@ -11,7 +11,7 @@ import {
 import {useFocusEffect} from '@react-navigation/native';
 import {notification} from '../../services/auth';
 import Card from '../../components/card';
-import Toaster from 'services/toasterService';
+import Toaster from '../../services/toasterService';
 const Notifications = navigation => {
   const [orderList, setOrderList] = useState([]);
   const [isLoading, setLoading] = useState(true);

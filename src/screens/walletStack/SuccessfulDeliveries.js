@@ -13,7 +13,7 @@ import {
 
 import styles from './FlatListStyle';
 import {getWalletDetails} from '../../services/wallet';
-import Toaster from 'services/toasterService';
+import Toaster from '../../services/toasterService';
 
 const SuccessfulDeliveries = (props, {navigation, route}) => {
   const [data, setData] = useState([]);

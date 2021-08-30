@@ -18,7 +18,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import images from '../../images';
 import loginStyles from './loginComponentsStyles';
 import Button from '../../components/button';
-import Toaster from 'services/toasterService';
+import Toaster from '../../services/toasterService';
 
 const ForgotPasswordScreeen = ({navigation}) => {
   const [data, setData] = React.useState({

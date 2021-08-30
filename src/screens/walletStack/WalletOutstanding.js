@@ -15,7 +15,7 @@ import {
 import Card from '../../components/card';
 import {getWalletDetails} from '../../services/wallet';
 import Button from '../../components/button';
-import Toaster from 'services/toasterService';
+import Toaster from '../../services/toasterService';
 
 
 const WalletOutstanding = ({navigation}) => {

@@ -11,7 +11,7 @@ import {useFocusEffect} from '@react-navigation/native';
 import {dropOff} from '../../services/history';
 import styles from './OrderHistoryStyles';
 import Card from '../../components/card';
-import Toaster from 'services/toasterService';
+import Toaster from '../../services/toasterService';
 
 const OrderDropOff = () => {
   const [dropUpcomingList, setDropUpcomingList] = useState([]);

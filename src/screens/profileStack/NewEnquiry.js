@@ -5,7 +5,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import Button from '../../components/button';
 import profileStyles from './profileStyle';
 import {newEnquiry} from '../../services/updateProfile';
-import Toaster from 'services/toasterService';
+import Toaster from '../../services/toasterService';
 
 const NewEnquiry =({navigation})=>{
 

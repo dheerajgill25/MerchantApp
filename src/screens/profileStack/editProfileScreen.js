@@ -19,7 +19,7 @@ import {getStateList} from '../../services/auth';
 
 
 import {profileImage, updateEditProfile, getProfile} from '../../services/updateProfile';
-import Toaster from 'services/toasterService';
+import Toaster from '../../services/toasterService';
 
 
 const editProfileScreen = ({navigation}) => {

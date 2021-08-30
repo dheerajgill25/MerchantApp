@@ -4,7 +4,7 @@ import {useFocusEffect} from '@react-navigation/native';
 import {helpCenterList} from '../../services/updateProfile';
 import Card from '../../components/card';
 import Entypo from 'react-native-vector-icons/Entypo';
-import Toaster from "services/toasterService";
+import Toaster from "../../services/toasterService";
 
 const HelpCenterList = ({navigation}) =>{
 
