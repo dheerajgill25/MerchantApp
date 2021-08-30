@@ -4,6 +4,7 @@ import {useFocusEffect} from '@react-navigation/native';
 import {pickup} from '../../services/history';
 import styles from './OrderHistoryStyles';
 import Card from '../../components/card'
+import Toaster from 'services/toasterService';
 
 const OrderPickup = () => {
 
@@ -49,13 +50,7 @@ const OrderPickup = () => {
           setLoading(false);   
       }
       else {
-          ToastAndroid.showWithGravityAndOffset(
-          res.message,
-          ToastAndroid.LONG,
-          ToastAndroid.BOTTOM,
-          25,
-          50
-          );
+          Toaster.show( res.message, 3000);
           console.log("error",res)
       }
     })

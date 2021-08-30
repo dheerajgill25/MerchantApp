@@ -10,7 +10,6 @@ import { View,
   Alert,
   Image,
   SafeAreaView,
-  ToastAndroid,
   ActivityIndicator,
 } from 'react-native';
 
@@ -25,6 +24,7 @@ import { AuthContext } from '../../components/context';
 import images from '../../images';
 import loginStyles from './loginComponentsStyles';
 import {setuser} from '../../constants/tokenHandler'
+import Toaster from 'services/toasterService';
 
 
 const BusinessDetailsScreen = ({route, navigation}) => {
@@ -76,13 +76,7 @@ const BusinessDetailsScreen = ({route, navigation}) => {
           
         }
         else {
-            ToastAndroid.showWithGravityAndOffset(
-            res.message,
-            ToastAndroid.LONG,
-            ToastAndroid.BOTTOM,
-            25,
-            50
-            );
+            Toaster.show( res.message, 3000);   
         }
     })
 
@@ -137,134 +131,61 @@ const BusinessDetailsScreen = ({route, navigation}) => {
                                             }
                                        }
                                        else {
-                                         ToastAndroid.showWithGravityAndOffset(
-                                           res.message,
-                                           ToastAndroid.LONG,
-                                           ToastAndroid.BOTTOM,
-                                           25,
-                                           50
-                                         );
+                                         Toaster.show( res.message, 3000);   
                                        }
                                       
                                     })
                                 }
                                   else{
-                                    ToastAndroid.showWithGravityAndOffset(
-                                      'Please enter Business Domain',
-                                      ToastAndroid.LONG,
-                                      ToastAndroid.BOTTOM,
-                                      25,
-                                      50
-                                    ); 
+                                    Toaster.show('Please enter Business Domain', 3000);   
                                   }
                                 }
                                  else {
-                                  ToastAndroid.showWithGravityAndOffset(
-                                    'Please enter Correct Contact Number',
-                                    ToastAndroid.LONG,
-                                    ToastAndroid.BOTTOM,
-                                    25,
-                                    50
-                                  ); 
+                                  Toaster.show('Please enter Correct Contact Number', 3000);   
                                 }
 
                               }
                               else{
-                                ToastAndroid.showWithGravityAndOffset(
-                                  'Please enter Area Code',
-                                  ToastAndroid.LONG,
-                                  ToastAndroid.BOTTOM,
-                                  25,
-                                  50
-                                ); 
+                                Toaster.show('Please enter Area Code', 3000);   
                               }
                               
                             } else {
-                                ToastAndroid.showWithGravityAndOffset(
-                                'Please enter City',
-                                ToastAndroid.LONG,
-                                ToastAndroid.BOTTOM,
-                                25,
-                                50
-                              ); 
+                              Toaster.show('Please enter City', 3000);  
                             }
 
                             
                           } else {
-                            ToastAndroid.showWithGravityAndOffset(
-                              'Please enter State',
-                              ToastAndroid.LONG,
-                              ToastAndroid.BOTTOM,
-                              25,
-                              50
-                            ); 
+                            Toaster.show( 'Please enter State', 3000);  
                           }
                         
                       } else {
-                        ToastAndroid.showWithGravityAndOffset(
-                        'Please enter Address',
-                        ToastAndroid.LONG,
-                        ToastAndroid.BOTTOM,
-                        25,
-                        50
-                      ); 
+                      Toaster.show( 'Please enter Address', 3000);  
                       }
 
                     }
                     else{
-                        ToastAndroid.showWithGravityAndOffset(
-                        'Please enter Designation',
-                        ToastAndroid.LONG,
-                        ToastAndroid.BOTTOM,
-                        25,
-                        50
-                      ); 
+                      Toaster.show( 'Please enter Designation', 3000); 
                     }
                     
                   }
                    else {
-                    ToastAndroid.showWithGravityAndOffset(
-                    'Please enter Owner Name',
-                    ToastAndroid.LONG,
-                    ToastAndroid.BOTTOM,
-                    25,
-                    50
-                  ); 
-                     
+                  Toaster.show('Please enter Owner Name', 3000); 
                   }
                   
                 } 
               else {
-                ToastAndroid.showWithGravityAndOffset(
-                'Please enter Business Type',
-                ToastAndroid.LONG,
-                ToastAndroid.BOTTOM,
-                25,
-                50
-              ); 
+              Toaster.show( 'Please enter Business Type', 3000); 
                 }
                 
               } 
               else {
-                ToastAndroid.showWithGravityAndOffset(
-                'Please enter Business Registration Number',
-                ToastAndroid.LONG,
-                ToastAndroid.BOTTOM,
-                25,
-                50
-              ); 
+              Toaster.show('Please enter Business Registration Number', 3000);
               }
             
           } 
           else {
-            ToastAndroid.showWithGravityAndOffset(
-              'Please enter Business Name',
-              ToastAndroid.LONG,
-              ToastAndroid.BOTTOM,
-              25,
-              50
-          ); 
-            
+           
+          Toaster.show( 'Please enter Business Name', 3000);
           }
 
        }

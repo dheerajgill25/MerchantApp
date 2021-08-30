@@ -8,7 +8,7 @@ ScrollView,
 TextInput,
 TouchableOpacity,
 ActivityIndicator,
-StatusBar,ToastAndroid } from 'react-native';
+StatusBar } from 'react-native';
 import {Avatar} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Picker } from '@react-native-picker/picker';
@@ -19,6 +19,7 @@ import {getStateList} from '../../services/auth';
 
 
 import {profileImage, updateEditProfile, getProfile} from '../../services/updateProfile';
+import Toaster from 'services/toasterService';
 
 
 const editProfileScreen = ({navigation}) => {
@@ -57,7 +58,7 @@ const editProfileScreen = ({navigation}) => {
           .then((res) => {            
             if (res.code == 200){
                 if (res.success == "false"){
-                    alert(res.message)
+                    Toaster.show( res.message, 3000);
                 } 
                 else {
                   {
@@ -86,7 +87,7 @@ const editProfileScreen = ({navigation}) => {
                 }
             }
           else {
-            alert(res.message)
+            Toaster.show( res.message, 3000);
             }                              
           
         });
@@ -98,7 +99,7 @@ const editProfileScreen = ({navigation}) => {
       .then((res) => {
         if (res.code == 200){
             if (res.success == "false"){
-                alert(res.message)
+                Toaster.show( res.message, 3000);
             }
           else {
 
@@ -113,13 +114,7 @@ const editProfileScreen = ({navigation}) => {
           
         }
         else {
-            ToastAndroid.showWithGravityAndOffset(
-            res.message,
-            ToastAndroid.LONG,
-            ToastAndroid.BOTTOM,
-            25,
-            50
-            );
+            Toaster.show( res.message, 3000);
         }
     })
 
@@ -185,25 +180,13 @@ const UpdateProfileImage=()=>{
           }
 
           else {
-          ToastAndroid.showWithGravityAndOffset(
-          res.message,
-          ToastAndroid.LONG,
-          ToastAndroid.BOTTOM,
-          25,
-          50
-          );
+          Toaster.show( res.message, 3000);
         }
                                       
         })
           }
           else{
-            ToastAndroid.showWithGravityAndOffset(
-                "Please Enter Correct Email ",
-                ToastAndroid.LONG,
-                ToastAndroid.BOTTOM,
-                25,
-                50
-              );
+              Toaster.show("Please Enter Correct Email ", 3000);
           }
         }
          

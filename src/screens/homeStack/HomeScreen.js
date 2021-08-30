@@ -5,6 +5,7 @@ import Card from '../../components/card';
 import Button from '../../components/button';
 import Icon from 'react-native-vector-icons/Entypo';
 import {dashboard,orderCancel} from '../../services/orders';
+import Toaster from 'services/toasterService';
 
 const HomeScreen = ({navigation,route}) => {
 
@@ -31,13 +32,7 @@ const HomeScreen = ({navigation,route}) => {
               setLoading(false);   
           }
           else {
-              ToastAndroid.showWithGravityAndOffset(
-              res.message,
-              ToastAndroid.LONG,
-              ToastAndroid.BOTTOM,
-              25,
-              50
-              );
+              Toaster.show( res.message, 3000);
           }
         })     
     }
@@ -56,13 +51,7 @@ const HomeScreen = ({navigation,route}) => {
               setLoading(false);   
           }
           else {
-              ToastAndroid.showWithGravityAndOffset(
-              res.message,
-              ToastAndroid.LONG,
-              ToastAndroid.BOTTOM,
-              25,
-              50
-              );
+              Toaster.show( res.message, 3000);
           }
         })     
       
