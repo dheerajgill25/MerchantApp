@@ -329,7 +329,7 @@ const editProfileScreen = ({navigation}) => {
                     borderColor: '#fff',
                   }}>
                   <DropdownComponent
-                    title={data?.adr_city || 'Please select city'}
+                    title={data?.city_name || 'Please select city'}
                     dropdownData={cityList}
                     onPress={data => setCity(data.id)}
                     type="cityList"
