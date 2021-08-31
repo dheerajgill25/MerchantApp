@@ -15,9 +15,6 @@ import {
 } from 'react-native';
 
 import * as Animatable from 'react-native-animatable';
-import {Picker} from '@react-native-picker/picker';
-import Colors from '../../constants/colors';
-import Card from '../../components/card';
 import Button from '../../components/button';
 import {signup, getStateList} from '../../services/auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -26,7 +23,7 @@ import images from '../../images';
 import loginStyles from './loginComponentsStyles';
 import {setuser} from '../../constants/tokenHandler';
 import Toaster from '../../services/toasterService';
-import ModalPicker from 'react-native-modal-picker';
+import DropdownComponent from '../../components/dropdown';
 
 const BusinessDetailsScreen = ({route, navigation}) => {
   const [data, setData] = React.useState({
@@ -90,7 +87,6 @@ const BusinessDetailsScreen = ({route, navigation}) => {
                       if (data.businessContactNo.length == 10) {
                         if (validate(data.businessDomain)) {
                           console.log('data...', data);
-
                           signup(
                             route.params.fullName,
                             route.params.contactNo,
@@ -470,31 +466,12 @@ const BusinessDetailsScreen = ({route, navigation}) => {
                 onChangeText={val => registrationNoInputChange(val)}
               />
             </View>
-            <View style={styles.dropdownSection}>
-              {/* <Picker
-                style={styles.picker}
-                itemStyle={styles.pickerItem}
-                selectedValue={businessTypeList}
-                onValueChange={(itemValue, itemIndex) =>
-                  businessTypeInputChange(itemValue)
-                }>
-                {businessTypeList.map((item, key) => (
-                  <Picker.Item
-                    label={item.bussiness_type_name}
-                    value={item.id}
-                    key={item.id}
-                  />
-                ))}
-              </Picker> */}
-              <ModalPicker
-                data={businessTypeList}
-                initValue="Select something yummy!"
-                onChange={option => {
-                  console.log(option);
-                  businessTypeInputChange(option);
-                }}
-                style={styles.picker}
-                optionStyle={styles.pickerItem}
+            <View style={{borderBottomWidth: 1, borderColor: '#fff', marginBottom:20}}>
+              <DropdownComponent
+                title="Select bussniess type"
+                dropdownData={businessTypeList}
+                onPress={data => businessTypeInputChange(data.id)}
+                type="bussniessType"  
               />
             </View>
             <View style={loginStyles.action}>
@@ -506,63 +483,24 @@ const BusinessDetailsScreen = ({route, navigation}) => {
                 onChangeText={val => ownerNameInputChange(val)}
               />
             </View>
-            <View style={styles.dropdownSection}>
-              {/* <Picker
-                style={styles.picker}
-                itemStyle={styles.pickerItem}
-                selectedValue={designationList}
-                onValueChange={(itemValue, itemIndex) =>
-                  designationInputChange(itemValue)
-                }>
-                {designationList.map((item, key) => (
-                  <Picker.Item
-                    label={item.designation_name}
-                    value={item.id}
-                    key={item.id}
-                  />
-                ))}
-              </Picker> */}
-
-              <ModalPicker
-                data={designationList}
-                initValue="Select something yummy!"
-                onChange={option => {
-                  console.log(option);
-                  designationInputChange(option);
-                }}
-                style={styles.picker}
-                optionStyle={styles.pickerItem}
+         
+            <View style={{borderBottomWidth: 1, borderColor: '#fff', marginBottom:20}}>
+              <DropdownComponent
+                title="Select designation type"
+                dropdownData={designationList}
+                onPress={data => designationInputChange(data.id)}
+                type="designationType"  
               />
             </View>
-
-            <View style={styles.dropdownSection}>
-              {/* <Picker
-                style={styles.picker}
-                itemStyle={styles.pickerItem}
-                selectedValue={businessDomainList}
-                onValueChange={(itemValue, itemIndex) =>
-                  businessDomainInputChange(itemValue)
-                }>
-                {businessDomainList.map((item, key) => (
-                  <Picker.Item
-                    label={item.category_name}
-                    value={item.id}
-                    key={item.id}
-                  />
-                ))}
-              </Picker> */}
-              <ModalPicker
-                data={businessDomainList}
-                initValue="Select something yummy!"
-                onChange={option => {
-                  console.log(option);
-                  businessDomainInputChange(option);
-                }}
-                style={styles.picker}
-                optionStyle={styles.pickerItem}
+         
+            <View style={{borderBottomWidth: 1, borderColor: '#fff', marginBottom:20}}>
+              <DropdownComponent
+                title="Select businessDomain list"
+                dropdownData={businessDomainList}
+                onPress={data => businessDomainInputChange(data.id)}
+               type="businessDomainList"  
               />
             </View>
-
             <Text style={styles.text_header}>Address</Text>
             <View style={loginStyles.action}>
               <TextInput
@@ -582,103 +520,32 @@ const BusinessDetailsScreen = ({route, navigation}) => {
                 onChangeText={val => address2InputChange(val)}
               />
             </View>
-            <View style={styles.dropdownSection}>
-              {/* <Picker
-                    style={styles.picker}
-                    selectedValue={data}
-                    onValueChange={(itemValue) => stateInputChange(itemValue)}
-                  > 
-                  <Picker.Item label="State" value =""/>
-                  <Picker.Item label="Rajasthan" value ="Rajasthan"/>
-                  <Picker.Item label="Maharastra" value ="Maharastra"/>
-                  <Picker.Item label="Goa" value ="Goa"/>
-                  </Picker>  
-                   <View style={styles.arrowWrapper}>
-                    <Text style={styles.arrow}>&#9660;</Text>
-                  </View>               */}
-{/* 
-              <Picker
-                style={styles.picker}
-                itemStyle={styles.pickerItem}
-                selectedValue={stateList}
-                onValueChange={(itemValue, itemIndex) =>
-                  stateInputChange(itemValue)
-                }>
-                {stateList.map((item, key) => (
-                  <Picker.Item
-                    label={item.state_name}
-                    value={item.id}
-                    key={item.id}
-                  />
-                ))}
-              </Picker> */}
-              <ModalPicker
-                data={stateList}
-                initValue="Select something yummy!"
-                onChange={option => {
-                  console.log(option);
-                  stateInputChange(option);
-                }}
-                style={styles.picker}
-                optionStyle={styles.pickerItem}
+            <View style={{borderBottomWidth: 1, borderColor: '#fff', marginBottom:20}}>
+              <DropdownComponent
+                title="Select State List"
+                dropdownData={stateList}
+                onPress={data => stateInputChange(data.id)}
+                type="stateList"  
               />
             </View>
-
-            <View style={styles.dropdownSection}>
-              {/* <Picker
-                style={styles.picker}
-                itemStyle={styles.pickerItem}
-                selectedValue={cityList}
-                onValueChange={(itemValue, itemIndex) =>
-                  cityInputChange(itemValue)
-                }>
-                {cityList.map((item, key) => (
-                  <Picker.Item
-                    label={item.city_name}
-                    value={item.id}
-                    key={item.id}
-                  />
-                ))}
-              </Picker> */}
-              <ModalPicker
-                data={cityList}
-                initValue="Select something yummy!"
-                onChange={option => {
-                  console.log(option);
-                  cityInputChange(option);
-                }}
-                style={styles.picker}
-                optionStyle={styles.pickerItem}
+           
+            <View style={{borderBottomWidth: 1, borderColor: '#fff', marginBottom:20}}>
+              <DropdownComponent
+                title="Select City List"
+                dropdownData={cityList}
+                onPress={data => cityInputChange(data.id)}
+                type="cityList"  
               />
             </View>
-            <View style={styles.dropdownSection}>
-              {/* <Picker
-                style={styles.picker}
-                itemStyle={styles.pickerItem}
-                selectedValue={areaCodeList}
-                onValueChange={(itemValue, itemIndex) =>
-                  areaCodeInputChange(itemValue)
-                }>
-                {areaCodeList.map((item, key) => (
-                  <Picker.Item
-                    label={item.areacode}
-                    value={item.id}
-                    key={item.id}
-                  />
-                ))}
-              </Picker> */}
-              <ModalPicker
-                data={areaCodeList}
-                initValue="Select something yummy!"
-                onChange={option => {
-                  console.log(option);
-                  areaCodeInputChange(option);
-                }}
-                style={styles.picker}
-                optionStyle={styles.pickerItem}
+          
+            <View style={{borderBottomWidth: 1, borderColor: '#fff', marginBottom:20}}>
+              <DropdownComponent
+                title="Select area code"
+                dropdownData={areaCodeList}
+                onPress={data => areaCodeInputChange(data.id)}
+                type="areacode"  
               />
             </View>
-
             <View style={loginStyles.action}>
               <TextInput
                 placeholder="Contact Number"

@@ -99,6 +99,7 @@ const profileStyles = StyleSheet.create({
     width:'100%',
     borderBottomWidth: 1,
     borderBottomColor: '#fff',
+    alignItems:'center'
   },
   greyButton:{
     margin:10,

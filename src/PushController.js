@@ -7,35 +7,35 @@ import App from './App'
 import {setnotifiToken} from './constants/tokenHandler'
 
 export default class PushController extends Component{
-    componentDidMount(){
-        PushNotification.configure({
-            // (optional) Called when Token is generated (iOS and Android)
-            onRegister: function(notifiToken) {
-              setnotifiToken(notifiToken.token);
-              console.log("TOKEN:", notifiToken);
-            },
+    // componentDidMount(){
+    //     PushNotification.configure({
+    //         // (optional) Called when Token is generated (iOS and Android)
+    //         onRegister: function(notifiToken) {
+    //           setnotifiToken(notifiToken.token);
+    //           console.log("TOKEN:", notifiToken);
+    //         },
           
-            // (required) Called when a remote or local notification is opened or received
-            onNotification: function(notification) {
-              console.log("NOTIFICATION:", notification);
+    //         // (required) Called when a remote or local notification is opened or received
+    //         onNotification: function(notification) {
+    //           console.log("NOTIFICATION:", notification);
           
-              // process the notification here
+    //           // process the notification here
           
-              // required on iOS only 
-              // notification.finish(PushNotificationIOS.FetchResult.NoData);
-            },
-            // Android only
-            senderID: "399701990775",
-            // iOS only
-            permissions: {
-              alert: true,
-              badge: true,
-              sound: true
-            },
-            popInitialNotification: true,
-            requestPermissions: true
-          });
-    }
+    //           // required on iOS only 
+    //           // notification.finish(PushNotificationIOS.FetchResult.NoData);
+    //         },
+    //         // Android only
+    //         senderID: "399701990775",
+    //         // iOS only
+    //         permissions: {
+    //           alert: true,
+    //           badge: true,
+    //           sound: true
+    //         },
+    //         popInitialNotification: true,
+    //         requestPermissions: true
+    //       });
+    // }
     
       render(){
         return (

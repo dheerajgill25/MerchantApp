@@ -5,7 +5,7 @@
 import {AppRegistry} from 'react-native';
 // import App from './src/App';
 import {name as appName} from './app.json';
-import PushController from './src/PushController'
+import App from './src/App'
 
 
-AppRegistry.registerComponent(appName, () => PushController);
+AppRegistry.registerComponent(appName, () => App);

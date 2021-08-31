@@ -200,7 +200,7 @@ const ProfileScreen = ({navigation}) => {
             <View style={[profileStyles.columnSection,]}>
               <Text style={profileStyles.text_footer}>City</Text>
             <View style={profileStyles.action}>
-              <Text style= {profileStyles.showtext}>{data.city_name}</Text>
+              <Text style= {profileStyles.showtext}>{data.adr_city}</Text>
             </View>
           </View>  
           <View style={[profileStyles.columnSection,]}>

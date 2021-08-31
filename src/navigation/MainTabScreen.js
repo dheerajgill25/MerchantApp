@@ -36,7 +36,7 @@ const MainTabScreen = ({ navigation }) => (
         options={{
           tabBarLabel: 'Home',
           tabBarIcon: ({  color }) => (
-          <Icon name="ios-home" color={color} size={26} />
+          <Icon name="ios-home" color={color} size={26} style={{ marginTop: 30 , height: 28 }} />
           ),
             }}
       />
@@ -46,7 +46,7 @@ const MainTabScreen = ({ navigation }) => (
         options={{
           tabBarLabel: 'Wallet',
           tabBarIcon: ({ color }) => (
-            <Icon name="wallet" color={color} size={26} />
+            <Icon name="wallet" color={color} size={26} style={{ marginTop: 30 , height: 28 }} />
           ),
           
         }}
@@ -57,7 +57,7 @@ const MainTabScreen = ({ navigation }) => (
         options={{
           tabBarLabel: 'OrderHistory',
           tabBarIcon: ({ color }) => (
-            <FontAwesome name="history" color={color} size={26}/>
+            <FontAwesome name="history" color={color} size={26} style={{ marginTop: 30 , height: 28 }} />
           ),
         }}
       />
@@ -67,7 +67,7 @@ const MainTabScreen = ({ navigation }) => (
         options={{
           tabBarLabel: 'Profile',
           tabBarIcon: ({  color }) => (
-          <Icon name="ios-person" color={color} size={26} />
+          <Icon name="ios-person" color={color} size={26} style={{ marginTop: 30 , height: 28 }} />
           ),
             }}
       />

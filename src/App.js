@@ -17,6 +17,7 @@ import images from './images';
 import {getuser, setuser} from './constants/tokenHandler'
 import { AuthContext } from './components/context';
 import BusinessDetailsScreen from './screens/loginScreens/BusinessDetailsScreen'
+import NotificationWatcher from './services/pushnotification';
 
 const App = () => {
   const [isLoading, setIsLoading] = React.useState(true);
@@ -137,6 +138,7 @@ const App = () => {
   return (
     <AuthContext.Provider value={authContext}>
     <NavigationContainer>
+    <NotificationWatcher/>
       { loginState.userToken !== null ? (
         <MainTabScreen />
       )
