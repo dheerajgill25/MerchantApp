@@ -11,6 +11,7 @@ import {
   Alert,
   ToastAndroid,
   Image,
+  KeyboardAvoidingView,
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import {resetPassword} from '../../services/auth';
@@ -87,7 +88,9 @@ const ForgotPasswordScreeen = ({navigation}) => {
           style={styles.logo}
           resizeMode="stretch"></Animatable.Image>
       </View>
-
+      <KeyboardAvoidingView
+        style={{flex: 1}}
+        behavior={Platform.OS === 'ios' ? 'padding' : null}>
       <Animatable.View animation="fadeInUpBig" style={styles.footer}>
         <Text style={styles.text_header}>Forgot Password</Text>
 
@@ -132,6 +135,7 @@ const ForgotPasswordScreeen = ({navigation}) => {
           </TouchableOpacity>
         </View>
       </Animatable.View>
+      </KeyboardAvoidingView>
     </View>
   );
 };

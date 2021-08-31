@@ -37,6 +37,14 @@
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
+	<key>NSCameraUsageDescription</key>
+	<string>Merchant app requires access to the Camera to upload your profile photo you choose</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Your Text</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Merchant app  requires access to the photo library to upload your profile photo you choose</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Merchant app  requires access to the photo library to upload your profile photo you choose</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>

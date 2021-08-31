@@ -9,6 +9,7 @@ import {
   StyleSheet,
   StatusBar,
   ScrollView,
+  KeyboardAvoidingView,
 } from 'react-native';
 
 import * as Animatable from 'react-native-animatable';
@@ -165,7 +166,7 @@ const SignInScreen = ({navigation}) => {
   };
 
   return (
-    <ScrollView style={loginStyles.container}>
+    <ScrollView contentContainerStyle={loginStyles.container}>
       <StatusBar backgroundColor="#000" barStyle="light-content" />
       <View style={loginStyles.header}>
         <Animatable.Image
@@ -176,108 +177,112 @@ const SignInScreen = ({navigation}) => {
           resizeMode="stretch"
         />
       </View>
+      <KeyboardAvoidingView
+        style={{flex: 1}}
+        behavior={Platform.OS === 'ios' ? 'padding' : null} keyboardVerticalOffset={100} >
+        <Animatable.View animation="fadeInUpBig" style={styles.footer}>
+          <Text style={loginStyles.text_header}>Register Now!</Text>
 
-      <Animatable.View animation="fadeInUpBig" style={styles.footer}>
-        <Text style={loginStyles.text_header}>Register Now!</Text>
+          <View style={loginStyles.action}>
+            <FontAwesome name="user-o" color="#05375a" size={20} />
+            <TextInput
+              placeholder="Full Name"
+              placeholderTextColor="#fff"
+              style={loginStyles.textInput}
+              autoCapitalize="none"
+              onChangeText={val => fullNameInputChange(val)}
+            />
+            {data.check_textInputChange ? (
+              <Animatable.View animation="bounceIn">
+                <Feather name="check-circle" color="green" size={20} />
+              </Animatable.View>
+            ) : null}
+          </View>
 
-        <View style={loginStyles.action}>
-          <FontAwesome name="user-o" color="#05375a" size={20} />
-          <TextInput
-            placeholder="Full Name"
-            placeholderTextColor="#fff"
-            style={loginStyles.textInput}
-            autoCapitalize="none"
-            onChangeText={val => fullNameInputChange(val)}
-          />
-          {data.check_textInputChange ? (
-            <Animatable.View animation="bounceIn">
-              <Feather name="check-circle" color="green" size={20} />
-            </Animatable.View>
-          ) : null}
-        </View>
+          <View style={loginStyles.action}>
+            <FontAwesome name="user-o" color="#05375a" size={20} />
 
-        <View style={loginStyles.action}>
-          <FontAwesome name="user-o" color="#05375a" size={20} />
+            <TextInput
+              placeholder="Contact Number"
+              placeholderTextColor="#fff"
+              style={loginStyles.textInput}
+              autoCapitalize="none"
+              keyboardType="number-pad"
+              onChangeText={val => contactNoInputChange(val)}
+            />
+          </View>
 
-          <TextInput
-            placeholder="Contact Number"
-            placeholderTextColor="#fff"
-            style={loginStyles.textInput}
-            autoCapitalize="none"
-            keyboardType="number-pad"
-            onChangeText={val => contactNoInputChange(val)}
-          />
-        </View>
+          <View style={loginStyles.action}>
+            <FontAwesome name="user-o" color="#05375a" size={20} />
+            <TextInput
+              placeholder="Your Email"
+              placeholderTextColor="#fff"
+              style={loginStyles.textInput}
+              autoCapitalize="none"
+              keyboardType="email-address"
+              onChangeText={val => emailIdInputChange(val)}
+            />
+          </View>
 
-        <View style={loginStyles.action}>
-          <FontAwesome name="user-o" color="#05375a" size={20} />
-          <TextInput
-            placeholder="Your Email"
-            placeholderTextColor="#fff"
-            style={loginStyles.textInput}
-            autoCapitalize="none"
-            keyboardType="email-address"
-            onChangeText={val => emailIdInputChange(val)}
-          />
-        </View>
+          <View style={loginStyles.action}>
+            <Feather name="lock" color="#05375a" size={20} />
+            <TextInput
+              placeholder="Your Password"
+              placeholderTextColor="#fff"
+              secureTextEntry={data.secureTextEntry ? true : false}
+              style={loginStyles.textInput}
+              autoCapitalize="none"
+              onChangeText={val => handlepasswordCheckChange(val)}
+            />
+            <TouchableOpacity onPress={updateSecureTextEntry}>
+              {data.secureTextEntry ? (
+                <Feather name="eye-off" color="grey" size={20} />
+              ) : (
+                <Feather name="eye" color="grey" size={20} />
+              )}
+            </TouchableOpacity>
+          </View>
 
-        <View style={loginStyles.action}>
-          <Feather name="lock" color="#05375a" size={20} />
-          <TextInput
-            placeholder="Your Password"
-            placeholderTextColor="#fff"
-            secureTextEntry={data.secureTextEntry ? true : false}
-            style={loginStyles.textInput}
-            autoCapitalize="none"
-            onChangeText={val => handlepasswordCheckChange(val)}
-          />
-          <TouchableOpacity onPress={updateSecureTextEntry}>
-            {data.secureTextEntry ? (
-              <Feather name="eye-off" color="grey" size={20} />
-            ) : (
-              <Feather name="eye" color="grey" size={20} />
-            )}
-          </TouchableOpacity>
-        </View>
+          <View style={loginStyles.action}>
+            <Feather name="lock" color="#05375a" size={20} />
+            <TextInput
+              placeholder="Confirm Your Password"
+              placeholderTextColor="#fff"
+              secureTextEntry={data.confirm_secureTextEntry ? true : false}
+              style={loginStyles.textInput}
+              autoCapitalize="none"
+              onChangeText={val => handleConfirmPasswordChange(val)}
+            />
+            <TouchableOpacity onPress={updateConfirmSecureTextEntry}>
+              {data.confirm_secureTextEntry ? (
+                <Feather name="eye-off" color="grey" size={20} />
+              ) : (
+                <Feather name="eye" color="grey" size={20} />
+              )}
+            </TouchableOpacity>
+          </View>
 
-        <View style={loginStyles.action}>
-          <Feather name="lock" color="#05375a" size={20} />
-          <TextInput
-            placeholder="Confirm Your Password"
-            placeholderTextColor="#fff"
-            secureTextEntry={data.confirm_secureTextEntry ? true : false}
-            style={loginStyles.textInput}
-            autoCapitalize="none"
-            onChangeText={val => handleConfirmPasswordChange(val)}
-          />
-          <TouchableOpacity onPress={updateConfirmSecureTextEntry}>
-            {data.confirm_secureTextEntry ? (
-              <Feather name="eye-off" color="grey" size={20} />
-            ) : (
-              <Feather name="eye" color="grey" size={20} />
-            )}
-          </TouchableOpacity>
-        </View>
+          <View style={styles.buttonSection}>
+            <TouchableOpacity
+              style={loginStyles.greyButton}
+              onPress={() => onSubmit()}>
+              <Text style={{color: '#fff', fontSize: 17}}>Continue</Text>
+            </TouchableOpacity>
 
-        <View style={styles.buttonSection}>
-          <TouchableOpacity
-            style={loginStyles.greyButton}
-            onPress={() => onSubmit()}>
-            <Text style={{color: '#fff', fontSize: 17}}>Continue</Text>
-          </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('SignInScreen')}>
+              <View style={styles.textPrivate}>
+                <Text style={styles.textPrivate}>Already have a account? </Text>
 
-          <TouchableOpacity onPress={() => navigation.navigate('SignInScreen')}>
-            <View style={styles.textPrivate}>
-              <Text style={styles.textPrivate}>Already have a account? </Text>
-
-              <Text
-                style={[styles.textPrivate, {fontSize: 15}, {color: '#fff'}]}>
-                Log In
-              </Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-      </Animatable.View>
+                <Text
+                  style={[styles.textPrivate, {fontSize: 15}, {color: '#fff'}]}>
+                  Log In
+                </Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        </Animatable.View>
+      </KeyboardAvoidingView>
     </ScrollView>
   );
 };
