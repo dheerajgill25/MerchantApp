@@ -19,6 +19,8 @@ const DropdownComponent = ({ dropdownData = [], title, onPress, edit, type }) =>
             setDropdownValue(data.city_name);
         }else if(type ==="areacode"){
             setDropdownValue(data.areacode);
+        }else if (type==="clientList"){
+            setDropdownValue(data.full_name);
         }
         setShowDropdown(false);
         setSelectedValue(true);
@@ -37,6 +39,8 @@ const DropdownComponent = ({ dropdownData = [], title, onPress, edit, type }) =>
             dropdownValue=data.city_name;
         }else if(type ==="areacode"){
             dropdownValue=data.areacode;
+        }else if (type==="clientList"){
+            dropdownValue=data.full_name;
         }
         return dropdownValue;
     }

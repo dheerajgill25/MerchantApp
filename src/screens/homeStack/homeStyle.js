@@ -18,13 +18,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginVertical: 10,
     borderBottomWidth: 1,
-    borderBottomColor: '#fff',    
+    borderBottomColor: '#fff',   
+    marginBottom: 20, 
   },
   textInput: {
     flex: 1,
     marginTop: Platform.OS === 'ios' ? 0 : -12,
     paddingLeft: 10,
     color: '#fff',
+    paddingBottom:5
   },
   columnSection:{
     flex:1,

@@ -7,6 +7,7 @@ import OrderHistory from '../screens/orderHistoryStack/OrderHistoryScreen';
 import ProfileStackScreen from '../screens/profileStack/profileStackScreen';
 import WalletStackScreen from '../screens/walletStack/WalletStackScreen';
 import HomeStackScreen from '../screens/homeStack/homeStackScreen';
+import { phoneHeight } from '../constants/phoneHeight';
 
 const Tab = createBottomTabNavigator();
 
@@ -19,7 +20,7 @@ const MainTabScreen = ({ navigation }) => (
       activeTintColor: '#fff',
     style:{
       position:'absolute',
-      bottom: 25,
+      bottom:phoneHeight() < 640 ?10 :25,
       left:20,
       right: 20,
       backgroundColor:'#333',
@@ -36,7 +37,7 @@ const MainTabScreen = ({ navigation }) => (
         options={{
           tabBarLabel: 'Home',
           tabBarIcon: ({  color }) => (
-          <Icon name="ios-home" color={color} size={26} style={{ marginTop: 30 , height: 28 }} />
+          <Icon name="ios-home" color={color} size={26} style={{ marginTop: phoneHeight() < 640 ?0 : 30 , height: 28 }} />
           ),
             }}
       />
@@ -46,7 +47,7 @@ const MainTabScreen = ({ navigation }) => (
         options={{
           tabBarLabel: 'Wallet',
           tabBarIcon: ({ color }) => (
-            <Icon name="wallet" color={color} size={26} style={{ marginTop: 30 , height: 28 }} />
+            <Icon name="wallet" color={color} size={26} style={{ marginTop: phoneHeight() < 640 ?0 : 30 , height: 28 }} />
           ),
           
         }}
@@ -57,7 +58,7 @@ const MainTabScreen = ({ navigation }) => (
         options={{
           tabBarLabel: 'OrderHistory',
           tabBarIcon: ({ color }) => (
-            <FontAwesome name="history" color={color} size={26} style={{ marginTop: 30 , height: 28 }} />
+            <FontAwesome name="history" color={color} size={26} style={{ marginTop: phoneHeight() < 640 ?0 : 30 , height: 28 }} />
           ),
         }}
       />
@@ -67,7 +68,7 @@ const MainTabScreen = ({ navigation }) => (
         options={{
           tabBarLabel: 'Profile',
           tabBarIcon: ({  color }) => (
-          <Icon name="ios-person" color={color} size={26} style={{ marginTop: 30 , height: 28 }} />
+          <Icon name="ios-person" color={color} size={26} style={{ marginTop: phoneHeight() < 640 ?0 : 30 , height: 28 }} />
           ),
             }}
       />

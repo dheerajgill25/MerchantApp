@@ -19,11 +19,10 @@ import RadioForm, {
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Button from '../../components/button';
 import styles from './homeStyle';
-import {Picker} from '@react-native-picker/picker';
 import {getClientList} from '../../services/orders';
 import {getStateList} from '../../services/auth';
 import Toaster from '../../services/toasterService';
-
+import DropdownComponent from '../../components/dropdown'
 const StandardOrder = ({navigation}) => {
   const [isModalVisible, setModalVisible] = useState(false);
   const [isLoading, setLoading] = useState(true);
@@ -414,23 +413,19 @@ const StandardOrder = ({navigation}) => {
             />
           </View>
 
-          <View style={styles.dropdownSection}>
-            <Picker
-              style={styles.picker}
-              itemStyle={styles.pickerItem}
-              selectedValue={data.clientEmail}
-              onValueChange={(itemValue, itemIndex) =>
-                clientlistInputchange(itemValue)
-              }>
-              {clientList.map((item, key) => (
-                <Picker.Item
-                  label={item.full_name}
-                  value={item.id}
-                  key={item.id}
+          <View>
+            <View
+                style={{
+                  borderBottomWidth: 1,
+                  borderColor: '#fff', marginBottom: 20, 
+                }}>
+                <DropdownComponent
+                  title={'Please select client email'}
+                  dropdownData={clientList}
+                  onPress={data => clientlistInputchange(data.id)}
+                  type="clientList"
                 />
-              ))}
-            </Picker>
-
+              </View>
             {/* <View style={styles.arrowWrapper}>
                     <Text style={styles.arrow}>&#9660;</Text>
                   </View> */}
@@ -473,70 +468,52 @@ const StandardOrder = ({navigation}) => {
               onChangeText={val => address2InputChange(val)}
             />
           </View>
-          <View style={styles.dropdownSection}>
-            <Picker
-              style={styles.picker}
-              itemStyle={styles.pickerItem}
-              selectedValue={stateList}
-              onValueChange={(itemValue, itemIndex) =>
-                stateInputChange(itemValue)
-              }>
-              {stateList.map((item, key) => (
-                <Picker.Item
-                  label={item.state_name}
-                  value={item.id}
-                  key={item.id}
+          <View>
+       
+            <View
+                style={{
+                  borderBottomWidth: 1,
+                  borderColor: '#fff', marginBottom: 20, 
+                }}>
+                <DropdownComponent
+                  title={'Please select state'}
+                  dropdownData={stateList}
+                  onPress={data => stateInputChange(data.id)}
+                  type="stateList"
                 />
-              ))}
-            </Picker>
-
-            {/* <View style={styles.arrowWrapper}>
-                    <Text style={styles.arrow}>&#9660;</Text>
-                  </View> */}
+              </View>
           </View>
-          <View style={styles.dropdownSection}>
-            <Picker
-              style={styles.picker}
-              itemStyle={styles.pickerItem}
-              selectedValue={cityList}
-              onValueChange={(itemValue, itemIndex) =>
-                cityInputChange(itemValue)
-              }>
-              {cityList.map((item, key) => (
-                <Picker.Item
-                  label={item.city_name}
-                  value={item.id}
-                  key={item.id}
+          <View>
+            <View
+                style={{
+                  borderBottomWidth: 1,
+                  borderColor: '#fff', marginBottom: 20, 
+                }}>
+                <DropdownComponent
+                  title={'Please select city'}
+                  dropdownData={cityList}
+                  onPress={data => cityInputChange(data.id)}
+                  type="cityList"
                 />
-              ))}
-            </Picker>
-
-            {/* <View style={styles.arrowWrapper}>
-                    <Text style={styles.arrow}>&#9660;</Text>
-                  </View> */}
+              </View>
+        
           </View>
-
-          <View style={styles.dropdownSection}>
-            <Picker
-              style={styles.picker}
-              itemStyle={styles.pickerItem}
-              selectedValue={areaCodeList}
-              onValueChange={(itemValue, itemIndex) =>
-                areaCodeInputChange(itemValue)
-              }>
-              {areaCodeList.map((item, key) => (
-                <Picker.Item
-                  label={item.areacode}
-                  value={item.id}
-                  key={item.id}
-                />
-              ))}
-            </Picker>
-
-            {/* <View style={styles.arrowWrapper}>
-                    <Text style={styles.arrow}>&#9660;</Text>
-                  </View> */}
-          </View>
+          <View>
+           
+           <View
+               style={{
+                 borderBottomWidth: 1,
+                 borderColor: '#fff', marginBottom: 20, 
+               }}>
+               <DropdownComponent
+                 title={'Please select area code'}
+                 dropdownData={areaCodeList}
+                 onPress={data => areaCodeInputChange(data.id)}
+                 type="areacode"
+               />
+             </View>
+         
+         </View>
           <View style={styles.action}>
             <TextInput
               placeholder="Primary Phone"
