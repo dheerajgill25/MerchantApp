@@ -67,7 +67,7 @@ const SignInScreen = ({ navigation }) => {
                         
                          foundUser();
                             setuser(res["merchant_details"]["access_token_db"]);
-                          signIn(res["merchant_details"]["access_token_db"])
+                            signIn(res["merchant_details"]["access_token_db"])
                     
                         //navigation.navigate('MainTabScreen')
                     }

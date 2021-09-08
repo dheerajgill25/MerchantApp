@@ -17,7 +17,7 @@ import profileStyles from './profileStyle';
 import {profileImage, getProfile} from '../../services/updateProfile';
 import ImagePicker from 'react-native-image-crop-picker';
 import{ AuthContext } from '../../components/context';
-import { Rating, AirbnbRating } from 'react-native-elements';
+import { AirbnbRating } from 'react-native-elements';
 import {logout} from '../../services/auth';
 
 const ProfileScreen = ({navigation}) => {
@@ -58,11 +58,11 @@ const ProfileScreen = ({navigation}) => {
                     setData(res.profile_details)
                     setImage(res.profile_details.profile_image)
                     setLoading(false)
-                    
                     }
-              }else {
+              }
+            else {
               alert(res.message)
-              }                              
+            }                              
           
         });
     }
@@ -301,7 +301,3 @@ const ProfileScreen = ({navigation}) => {
 
 export default ProfileScreen;
 
-const styles = StyleSheet.create({
-  
-  
-});

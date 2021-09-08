@@ -83,13 +83,13 @@ const HomeScreen = ({navigation,route}) => {
             style={{width:60, height:60, }}
             resizeMode="stretch"
           />
-        </View>  
-      </View>
+          </View>  
+        </View>
   
           <Card style={styles.cardHighlight}>   
           <View style= {{flexDirection:'row'}}>
             <Icon name="back-in-time" color={'#f0f0f0'} size={20}/>
-            <Text style={{color:'grey', fontSize:17}}>   {fromName} to {toName}</Text>
+            <Text style={{color:'grey', fontSize:17}}>{fromName} to {toName}</Text>
           </View>  
           </Card>
         <View style={{marginVertical:10}}>  
@@ -98,9 +98,9 @@ const HomeScreen = ({navigation,route}) => {
           </Card>
         </View>  
         {cancelButtonShow =='0'?
-              <View/>
-            :
-             <Button style={styles.redButton} onPress={() => {onCancelOrderPickup(id)}}>
+            <View/>
+          :
+            <Button style={styles.redButton} onPress={() => {onCancelOrderPickup(id)}}>
                 <Text style={{color: '#fff', fontSize:16}}>Cancel Pickup</Text>     
             </Button> 
         }
@@ -121,17 +121,16 @@ const HomeScreen = ({navigation,route}) => {
   );
 
   
-   if (isLoading){
-    return (
-      <View style = {{flex: 1,justifyContent: "center", backgroundColor:'#000'}}>
-       <StatusBar backgroundColor='#000' barStyle="light-content"/>
-        <ActivityIndicator size="large" color="#fff" />
-     </View>
-    )
-  }
-  else{
+    if (isLoading){
+      return (
+        <View style = {{flex: 1,justifyContent: "center", backgroundColor:'#000'}}>
+          <StatusBar backgroundColor='#000' barStyle="light-content"/>
+          <ActivityIndicator size="large" color="#fff" />
+        </View>
+      )
+    }
+    else{
 
-  
     return (
       <SafeAreaView style={styles.container}>
         <StatusBar backgroundColor='#000' barStyle="light-content"/>
@@ -141,18 +140,18 @@ const HomeScreen = ({navigation,route}) => {
           resizeMode="stretch"
         />
         {value.no_record =='0'?
-            <View style={{flex:1}}>
-              <FlatList
-                data={data}
-                renderItem={renderItem}
-                keyExtractor={item => item.id}
-                // ListFooterComponent ={<View style={{height:70}}></View>}
-              />
-              </View>
-          :
-              <View style={{flex:1,alignItems:'center',justifyContent:'center'}}>
-                <Text style={{color:'#fff'}}>No Upcoming Pickups Scheduled</Text>
-              </View>
+          <View style={{flex:1}}>
+            <FlatList
+              data={data}
+              renderItem={renderItem}
+              keyExtractor={item => item.id}
+              // ListFooterComponent ={<View style={{height:70}}></View>}
+            />
+            </View>
+        :
+            <View style={{flex:1,alignItems:'center',justifyContent:'center'}}>
+              <Text style={{color:'#fff'}}>No Upcoming Pickups Scheduled</Text>
+            </View>
         }
         
         <View style= {{flexDirection:'row', alignSelf:'center',flex:0.5}}>

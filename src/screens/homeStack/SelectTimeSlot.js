@@ -102,12 +102,12 @@ const SelectTimeSlot = ({navigation,route}) => {
               alert(res.message)
           } 
           else {
-          alert(res.message)
-          navigation.navigate('OrderDetails',{id:res.order_id})
-          }
+            alert(res.message)
+            navigation.navigate('OrderDetails',{id:res.order_id})
+            }
           }
 
-          else {
+        else {
           ToastAndroid.showWithGravityAndOffset(
           res.message,
           ToastAndroid.LONG,

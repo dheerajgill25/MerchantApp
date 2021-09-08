@@ -102,10 +102,11 @@ const BusinessDetailsScreen = ({route, navigation}) => {
                            if (validate(data.city)) {
                               if (validate(data.areaCode)) {
                                 if (data.businessContactNo.length == 10) {
-                                   if (validate(data.businessDomain)) {
-                                  console.log("data...", data)
+                                  if (validate(data.businessDomain)) {
+                                     
+                                    setLoading(true);
 
-                                  signup(route.params.fullName, route.params.contactNo, route.params.emailId, route.params.passwordCheck, data.businessName, data.registrationNo, data.businessType, data.ownerName,
+                                    signup(route.params.fullName, route.params.contactNo, route.params.emailId, route.params.passwordCheck, data.businessName, data.registrationNo, data.businessType, data.ownerName,
                                         data.designation,data.businessDomain, data.address1, data.address2, data.state,data.city, data.areaCode, data.businessContactNo, data.facebook, data.linkedin,
                                         data.twitter, data.instagram)
 
@@ -114,28 +115,31 @@ const BusinessDetailsScreen = ({route, navigation}) => {
                                       console.log('in main tab');
                                       
                                        if (res.code == 200){
-                                       if (res.success == "false"){
+                                       if (res.success == "false"){6
                                           alert(res.message)
                                           navigation.navigate('SignUpScreen')
                                          } 
                                         else {
-                                           const foundUser = async () => {      
-                                              try {
-                                                  await AsyncStorage.setItem(
-                                                  'userToken',
-                                                  res["merchant_details"]["access_token_db"]
-                                                  );
-                                              } catch (error) {
-                                                  console.log("setData error", e)
-                                              }
+                                          //  const foundUser = async () => {      
+                                          //     try {
+                                          //         await AsyncStorage.setItem(
+                                          //         'userToken',
+                                          //         res["merchant_details"]["access_token_db"]
+                                          //         );
+                                          //     } catch (error) {
+                                          //         console.log("setData error", e)
+                                          //     }
                                               
-                                              };
-                                              foundUser();
-                                              setuser(res["merchant_details"]["access_token_db"])
-                                              signUp(res["merchant_details"]["access_token_db"])
-                                              
-                                            }
+                                          //     };
+                                          //     foundUser();
+                                          //     setuser(res["merchant_details"]["access_token_db"])
+                                          //     signUp(res["merchant_details"]["access_token_db"])
+                                          //   }
+                                          navigation.navigate('SignInScreen')
+                                          console.log(res["merchant_details"]["access_token_db"]);
+                                          setLoading(false)
                                        }
+
                                        else {
                                          ToastAndroid.showWithGravityAndOffset(
                                            res.message,
@@ -257,13 +261,13 @@ const BusinessDetailsScreen = ({route, navigation}) => {
             
           } 
           else {
-            ToastAndroid.showWithGravityAndOffset(
+              ToastAndroid.showWithGravityAndOffset(
               'Please enter Business Name',
               ToastAndroid.LONG,
               ToastAndroid.BOTTOM,
               25,
               50
-          ); 
+            ); 
             
           }
 
@@ -632,20 +636,6 @@ const instagramInputChange = (val) => {
                   />
                 </View>
               <View style={styles.dropdownSection}>
-                  {/* <Picker
-                    style={styles.picker}
-                    selectedValue={data}
-                    onValueChange={(itemValue) => stateInputChange(itemValue)}
-                  > 
-                  <Picker.Item label="State" value =""/>
-                  <Picker.Item label="Rajasthan" value ="Rajasthan"/>
-                  <Picker.Item label="Maharastra" value ="Maharastra"/>
-                  <Picker.Item label="Goa" value ="Goa"/>
-                  </Picker>  
-                   <View style={styles.arrowWrapper}>
-                    <Text style={styles.arrow}>&#9660;</Text>
-                  </View>               */}
-
                   <Picker
                     style={styles.picker} itemStyle={styles.pickerItem}
                     selectedValue={stateList}

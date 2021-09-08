@@ -43,8 +43,8 @@ import { getStateList } from "../../services/auth";
   }, []);
 
   function ClientList(){
-      getClientList()  
-    .then((res) => {
+    getClientList()  
+      .then((res) => {
       if (res.code == 200){
           if (res.success == "false"){
               alert(res.message)
@@ -400,9 +400,6 @@ import { getStateList } from "../../services/auth";
                     <Picker.Item label={item.full_name} value={item.id} key={item.id} />)}
                   </Picker>
                   
-                  {/* <View style={styles.arrowWrapper}>
-                    <Text style={styles.arrow}>&#9660;</Text>
-                  </View> */}
                 </View>
                 <View style={styles.action}>
                   <TextInput 

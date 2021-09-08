@@ -7,7 +7,6 @@ export const emailCheck = (emailId) => {
    const URL = Constants.BASE_URL+Constants.BASIC_LIST+Constants.EMAIL_EXIST;
     let formdata = new FormData();
     formdata.append("email", emailId)
-    console.log("check email",formdata)
     return fetch(URL, {
         method: 'POST',
         headers: {
@@ -16,7 +15,6 @@ export const emailCheck = (emailId) => {
         body: formdata
     })
     .then((response) => response.json()).then((json) => {
-        console.log("res",json)
         return json
     }).catch((error) => {
         console.error("email",error);
