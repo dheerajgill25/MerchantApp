@@ -21,7 +21,7 @@ import loginStyles from './loginComponentsStyles';
 import Button from '../../components/button';
 import Toaster from '../../services/toasterService';
 
-const SignInScreen = ({navigation}) => {
+const SignUpScreen = ({navigation}) => {
   const [data, setData] = React.useState({
     fullName: '',
     contactNo: '',
@@ -287,7 +287,7 @@ const SignInScreen = ({navigation}) => {
   );
 };
 
-export default SignInScreen;
+export default SignUpScreen;
 
 const styles = StyleSheet.create({
   footer: {

@@ -3,8 +3,7 @@ const {height} = Dimensions.get("screen");
 const height_logo = height * 0.28;
 
 const loginStyles = StyleSheet.create({
-  container: {
-    flex: 1, 
+  container: { 
     backgroundColor: '#000'
   },
   header: {
@@ -53,7 +52,8 @@ const loginStyles = StyleSheet.create({
 
   submit: { 
     alignItems: 'center',
-    margin: 50,
+    marginHorizontal: 50,
+    marginVertical:25,
     width:'100%',
     backgroundColor:'#000'
   },

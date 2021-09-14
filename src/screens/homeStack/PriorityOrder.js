@@ -24,8 +24,6 @@ import {getClientList} from '../../services/orders';
 import {getStateList} from '../../services/auth';
 import Toaster from '../../services/toasterService';
 import DropdownComponent from '../../components/dropdown'
-
-
 const PriorityOrder = ({navigation}) => {
   const [isModalVisible, setModalVisible] = useState(false);
   const [isLoading, setLoading] = useState(true);
@@ -325,7 +323,6 @@ const PriorityOrder = ({navigation}) => {
       Toaster.show('Please enter Cash Amount', 3000);
     }
   };
-  
   if (isLoading) {
     return (
       <View
@@ -338,174 +335,37 @@ const PriorityOrder = ({navigation}) => {
       <SafeAreaView style={styles.container}>
         <StatusBar backgroundColor="#000" barStyle="light-content" />
         {/* Dialog box */}
-            <Modal animationType="slide" 
-                   transparent visible={isModalVisible} 
-                   presentationStyle="overFullScreen" 
-                   onDismiss={toggleModalVisibility}>
-                <View style={styles.viewWrapper}>
-                    <View style={[styles.modalView,{height: 200,}]}>
-                        <Text style={{fontWeight:'bold', fontSize:18,}}>{'\u2022'} Cash to be collected</Text>                        
-                        <TextInput 
-                          placeholder="Amount" 
-                          keyboardType= "number-pad"
-                          style={styles.textInputDialogBox} 
-                          onChangeText={(val) => amountInputChange(val)} 
-                        />
+        <Modal
+          animationType="slide"
+          transparent
+          visible={isModalVisible}
+          presentationStyle="overFullScreen"
+          onDismiss={toggleModalVisibility}>
+          <View style={styles.viewWrapper}>
+            <View style={[styles.modalView, {height: 200}]}>
+              <Text style={{fontWeight: 'bold', fontSize: 18}}>
+                {'\u2022'} Cash to be collected
+              </Text>
+              <TextInput
+                placeholder="Amount"
+                keyboardType="number-pad"
+                style={styles.textInputDialogBox}
+                onChangeText={val => amountInputChange(val)}
+              />
 
-                        <TouchableOpacity style={styles.closeButton} onPress={()=>toggleModalVisibility()}>    
-                          <Icon name="close" color={'#fff'} size={28}/>
-                        </TouchableOpacity>
-                         
-                        {/** This button is responsible to close the modal */}
-                        <Button style={styles.submit} onPress={()=>onSubmit()}>
-                          <Text style={{color: '#fff', fontSize:17}}>Create Order</Text>     
-                        </Button>  
-                    </View>
-                </View>
-            </Modal>
-        <ScrollView>      
-              <Text style={styles.text}>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.</Text>
-              
-                <View style={{flexDirection:'row', backgroundColor:'#333',paddingVertical:10,paddingHorizontal:20,margin:5, borderRadius:100, flex:1,justifyContent:'space-between' }}>  
-                  <Text style={{color:'#fff',textAlign:'left'}}>Same day priority delivery</Text>
-                  <Text style={{color:'#fff',textAlign:'right' }}>Selected</Text>
-                </View> 
+              <TouchableOpacity
+                style={styles.closeButton}
+                onPress={() => toggleModalVisibility()}>
+                <Icon name="close" color={'#fff'} size={28} />
+              </TouchableOpacity>
 
-                <View style={styles.action}>               
-                  <TextInput 
-                      placeholder="Name"
-                      placeholderTextColor = "#fff"
-                      style={[styles.textInput,{fontSize:16,}]}
-                      autoCapitalize="none"
-                      onChangeText={(val) => nameInputChange(val)}    
-                  />
-                </View>  
-                  
-                
-                <View style={styles.dropdownSection}>
-                 
-                  <Picker
-                    style={styles.picker} itemStyle={styles.pickerItem}
-                    selectedValue={data.clientEmail}
-                    onValueChange={(itemValue, itemIndex) => clientlistInputchange(itemValue)}>
-                    {clientList.map((item, key)=>
-                    <Picker.Item label={item.full_name} value={item.id} key={item.id} />)}
-                  </Picker>
-                  
-                </View>
-                <View style={styles.action}>
-                  <TextInput 
-                      placeholder="Medicine Name"
-                      placeholderTextColor = "#fff"
-                      style={[styles.textInput,{fontSize:16,}]}
-                      autoCapitalize="none"
-                      onChangeText={(val) => medicineNameInputChange(val)}
-                  />
-                </View> 
-                <View style={styles.action}>
-                  <TextInput 
-                      placeholder="Quantity"
-                      placeholderTextColor = "#fff"
-                      style={[styles.textInput,{fontSize:16,}]}
-                      autoCapitalize="none"
-                      onChangeText={(val) => quantityInputChange(val)}
-                  />
-                </View>
-
-                <View style={styles.action}>
-                  <TextInput 
-                      placeholder="Street Address"
-                      placeholderTextColor = "#fff"
-                      style={[styles.textInput,{fontSize:16,}]}
-                      autoCapitalize="none"
-                      onChangeText={(val) => address1InputChange(val)}
-                  />
-                </View>
-
-                 <View style={styles.action}>
-                  <TextInput 
-                      placeholder="Apt, Building Gate Code, etc"
-                      placeholderTextColor = "#fff"
-                      style={[styles.textInput,{fontSize:16,}]}
-                      autoCapitalize="none"
-                      onChangeText={(val) => address2InputChange(val)}
-                  />
-                </View>
-                 <View style={styles.dropdownSection}>
-                 
-                <Picker
-                    style={styles.picker} itemStyle={styles.pickerItem}
-                    selectedValue={stateList}
-                    onValueChange={(itemValue, itemIndex) => stateInputChange(itemValue)}>
-                    {stateList.map((item, key)=>
-                    <Picker.Item label={item.state_name} value={item.id} key={item.id} />)}
-                  </Picker>
-                  
-                  {/* <View style={styles.arrowWrapper}>
-                    <Text style={styles.arrow}>&#9660;</Text>
-                  </View> */}
-                </View>
-               <View style={styles.dropdownSection}>
-                 
-                  <Picker
-                    style={styles.picker} itemStyle={styles.pickerItem}
-                    selectedValue={cityList}
-                    onValueChange={(itemValue, itemIndex) => cityInputChange(itemValue)}>
-                    {cityList.map((item, key)=>
-                    <Picker.Item label={item.city_name} value={item.id} key={item.id} />)}
-                  </Picker>
-                  
-                  {/* <View style={styles.arrowWrapper}>
-                    <Text style={styles.arrow}>&#9660;</Text>
-                  </View> */}
-                </View>              
-
-                 <View style={styles.dropdownSection}>
-                 
-                   <Picker
-                    style={styles.picker} itemStyle={styles.pickerItem}
-                    selectedValue={areaCodeList}
-                    onValueChange={(itemValue, itemIndex) => areaCodeInputChange(itemValue)}>
-                    {areaCodeList.map((item, key)=>
-                    <Picker.Item label={item.areacode} value={item.id} key={item.id} />)}
-                  </Picker>
-               
-
-                  {/* <View style={styles.arrowWrapper}>
-                    <Text style={styles.arrow}>&#9660;</Text>
-                  </View> */}
-                </View>
-                <View style={styles.action}>
-                  <TextInput 
-                      placeholder="Primary Phone"
-                      placeholderTextColor = "#fff"
-                      style={[styles.textInput,{fontSize:16,}]}
-                      autoCapitalize="none"
-                      keyboardType="numeric"
-                      onChangeText={(val) => phoneNoInputChange(val)}
-                  />
-                </View>
-                <View style={{alignItems:'center', justifyContent:'center', marginVertical:15}}>
-                  <RadioForm
-                    radio_props={radio_props}
-                    intial={0}
-                    onPress={(value) => {paymentTypeInputChange(value)}}
-                    buttonSize={12}
-                    buttonOuterSize={25}
-                    buttonColor={'#fff'}
-                    formHorizontal={false}
-                    labelHorizontal={true}
-                    animation={true}
-                    labelStyle={{fontSize: 17, color: '#fff', marginLeft:30}}
-                    selectedButtonColor= {'#fff'}
-                  />
-                </View>
- 
-              <View style={{alignItems:'center',justifyContent:'center', marginBottom:80}}> 
-                <Button style={styles.submit} onPress= {()=>onCreateOrder()} >
-                  <Text style={{color: '#fff', fontSize:17}}>Create Order</Text>     
-                </Button>   
+              {/** This button is responsible to close the modal */}
+              <Button style={styles.submit} onPress={() => onSubmit()}>
+                <Text style={{color: '#fff', fontSize: 17}}>Create Order</Text>
+              </Button>
             </View>
+          </View>
+        </Modal>
         <ScrollView>
           <Text style={styles.text}>
             Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean

@@ -9,13 +9,8 @@ import {
 } from 'react-native';
 import {useFocusEffect} from '@react-navigation/native';
 import {pickup} from '../../services/history';
-<<<<<<< HEAD
-import Card from '../../components/card';
-=======
-import styles from './OrderHistoryStyles';
 import Card from '../../components/card'
 import Toaster from '../../services/toasterService';
->>>>>>> 29c9133e6975b023567a168bc145d27491bd5b08
 
 const OrderPickup = () => {
   const [upcomingList, setUpcomingList] = useState([]);

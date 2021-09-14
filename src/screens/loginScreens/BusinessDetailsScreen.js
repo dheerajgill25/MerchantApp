@@ -86,7 +86,6 @@ const BusinessDetailsScreen = ({route, navigation}) => {
                     if (validate(data.areaCode)) {
                       if (data.businessContactNo.length == 10) {
                         if (validate(data.businessDomain)) {
-                          console.log('data...', data);
                           signup(
                             route.params.fullName,
                             route.params.contactNo,
@@ -126,7 +125,7 @@ const BusinessDetailsScreen = ({route, navigation}) => {
                                       ],
                                     );
                                   } catch (error) {
-                                    console.log('setData error', e);
+                                    console.log('token storage error', e);
                                   }
                                 };
                                 foundUser();
@@ -441,7 +440,7 @@ const BusinessDetailsScreen = ({route, navigation}) => {
     );
   } else {
     return (
-      <SafeAreaView style={loginStyles.container}>
+      <SafeAreaView style={{flex:1, backgroundColor: '#000'}}>
         <StatusBar backgroundColor="#000" barStyle="light-content" />
         <ScrollView>
           <Animatable.View style={styles.footer} animation="fadeInUpBig">

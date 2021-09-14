@@ -23,69 +23,19 @@ import {AuthContext} from '../../components/context';
 import images from '../../images';
 import loginStyles from './loginComponentsStyles';
 import Button from '../../components/button';
-import {setuser} from '../../constants/tokenHandler'
+import {setuser} from '../../constants/tokenHandler';
+import Toaster from '../../services/toasterService';
+import {phoneHeight} from '../../constants/phoneHeight';
 
-const SignInScreen = ({ navigation }) => {
-
-    
-   const [data, setData] = React.useState({
-        emailId: '',
-        passwordCheck: '',
-        check_textInputChange: false,
-        secureTextEntry: true,
-        isValidUser: true,
-        isValidpasswordCheck: true,
-    });
-
-    const { signIn } = React.useContext(AuthContext);
-
-    const onSignIn =() => {
-       if(validate(data.emailId)){
-           if(data.passwordCheck.length >7){
-                    signin( data.emailId, data.passwordCheck )
-
-                    .then((res) => {
-                    console.log(res); 
-                    console.log('in main tab');
-                    
-                    if (res.code == 200){
-                    if (res.success == "false"){
-                        alert(res.message)
-                        navigation.navigate('SignInScreen')
-                        } 
-                     else {
-                        console.log(res["merchant_details"]["access_token_db"]);
-                        const foundUser = async () => {
-                            console.log("Inside setData function")
-                        try {
-                            await AsyncStorage.setItem(
-                            'userToken',
-                            res["merchant_details"]["access_token_db"]
-                            );
-                        } catch (error) {
-                            console.log("setData error", e)
-                        }
-                        
-                        };
-                        
-                         foundUser();
-                            setuser(res["merchant_details"]["access_token_db"]);
-                            signIn(res["merchant_details"]["access_token_db"])
-                    
-                        //navigation.navigate('MainTabScreen')
-                    }
-                    }
-                    else {
-                        ToastAndroid.showWithGravityAndOffset(
-                        res.message,
-                        ToastAndroid.LONG,
-                        ToastAndroid.BOTTOM,
-                        25,
-                        50
-                        );
-                    }
-                    
-                })
+const SignInScreen = ({navigation}) => {
+  const [data, setData] = React.useState({
+    emailId: '',
+    passwordCheck: '',
+    check_textInputChange: false,
+    secureTextEntry: true,
+    isValidUser: true,
+    isValidpasswordCheck: true,
+  });
 
   const {signIn} = React.useContext(AuthContext);
 
@@ -125,7 +75,7 @@ const SignInScreen = ({ navigation }) => {
           }
         });
       } else {
-        Toaster.show('Please enter correct passwordCheck', 3000);
+        Toaster.show('Please enter correct password', 3000);
       }
     } else {
       Toaster.show('Please enter correct Email', 3000);
@@ -198,7 +148,7 @@ const SignInScreen = ({ navigation }) => {
   return (
     <>
       <StatusBar backgroundColor="#000" barStyle="light-content" />
-      <View style={loginStyles.container}>
+      <View style={{flex:1, backgroundColor: '#000'}}>
         <View style={loginStyles.header}>
           <Animatable.Image
             animation="fadeInUpBig"
@@ -267,7 +217,7 @@ const SignInScreen = ({ navigation }) => {
             )}
             <TouchableOpacity
               onPress={() => navigation.navigate('ForgotPasswordScreen')}>
-              <Text style={{color: '#fff', marginTop: 15}}>
+              <Text style={{color: '#fff',}}>
                 Forgot password?
               </Text>
             </TouchableOpacity>
@@ -294,6 +244,7 @@ const styles = StyleSheet.create({
     paddingVertical: 30,
   },
   errorMsg: {
+    marginTop: -15,
     color: '#FF0000',
     fontSize: 14,
   },

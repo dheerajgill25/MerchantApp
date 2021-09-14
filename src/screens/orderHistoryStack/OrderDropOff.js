@@ -9,7 +9,6 @@ import {
 } from 'react-native';
 import {useFocusEffect} from '@react-navigation/native';
 import {dropOff} from '../../services/history';
-import styles from './OrderHistoryStyles';
 import Card from '../../components/card';
 import Toaster from '../../services/toasterService';
 
@@ -135,7 +134,7 @@ const OrderDropOff = () => {
     );
   } else {
     return (
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView style={{ flex: 1, backgroundColor: '#000'}}>
         <View style={{marginTop: 60, flex: 4, marginHorizontal: 17}}>
           <Text
             style={{

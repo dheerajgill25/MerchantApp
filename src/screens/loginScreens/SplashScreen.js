@@ -19,8 +19,8 @@ import Button from '../../components/button';
 
 const SplashScreen = ({navigation}) => {
   return (
-      <>
-    <View style={[loginStyles.container]}>
+      
+    <View style={{flex:1, backgroundColor: '#000'}}>
       <StatusBar backgroundColor="#000" barStyle="light-content" />
         <View style={loginStyles.header}>
           <Animatable.Image
@@ -54,7 +54,6 @@ const SplashScreen = ({navigation}) => {
           </TouchableOpacity>
         </Animatable.View>
     </View>
-    </>
   );
 };
 

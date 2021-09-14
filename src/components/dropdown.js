@@ -52,13 +52,13 @@ const DropdownComponent = ({ dropdownData = [], title, onPress, edit, type }) =>
                         <Text style={[styles.title, { color: selectedValue ? 'white' : edit ? 'black' : 'white' }]}>{dropdownValue ? dropdownValue : title}</Text>
                         <Icon name={showDropdown?"chevron-up":"chevron-down"} color="white" size={22} />
                     </TouchableOpacity>
-                    <View style={{height:showDropdown&&200}}>
-                    <ScrollView>
+                    <View style={showDropdown&&styles.setHeight}>
+                        <ScrollView>
                     {
                         showDropdown && dropdownData ? (
                             dropdownData && dropdownData.length > 0 && (
                                 dropdownData && dropdownData.map((item, index) => (
-                                    <View key={index} style={styles.dropdownWrap}>
+                                    <View key={index} style={[styles.dropdownWrap]}>
                                         <TouchableOpacity onPress={() => { onPress(item); handleValue(item) }} activeOpacity={0.6} style={styles.dropdownInner}>
                                             <Text style={styles.values}>{item? getName(item) : 'Please select'}</Text>
                                         </TouchableOpacity>
@@ -96,13 +96,12 @@ const styles = StyleSheet.create({
         borderBottomWidth: 0.2,
         borderBottomColor: "#a7a7a7",
         width:'100%',
+        zIndex: 10,
     },
     dropdownInner: {},
     dropdownFlex: {
         paddingHorizontal: 5,
         paddingVertical: 10,
-        borderBottomWidth: 1,
-        borderBottomColor: '#CACACA',
         flexDirection:'row',
         alignItems:'center',
         justifyContent:'space-between'
@@ -115,5 +114,8 @@ const styles = StyleSheet.create({
     values: {
         color: '#fff',
     },
+    setHeight:{
+        height:200
+    }
 });
 export default memo(DropdownComponent);
