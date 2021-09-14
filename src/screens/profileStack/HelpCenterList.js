@@ -4,6 +4,7 @@ import {useFocusEffect} from '@react-navigation/native';
 import {helpCenterList} from '../../services/updateProfile';
 import Card from '../../components/card';
 import Entypo from 'react-native-vector-icons/Entypo';
+import Toaster from "../../services/toasterService";
 
 const HelpCenterList = ({navigation}) =>{
 
@@ -43,13 +44,7 @@ const HelpCenterList = ({navigation}) =>{
               setLoading(false);   
           }
           else {
-              ToastAndroid.showWithGravityAndOffset(
-              res.message,
-              ToastAndroid.LONG,
-              ToastAndroid.BOTTOM,
-              25,
-              50
-              );
+              Toaster.show( res.message, 3000);
           }
         })     
     }

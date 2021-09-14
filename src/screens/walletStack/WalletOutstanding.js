@@ -15,6 +15,7 @@ import {
 import Card from '../../components/card';
 import {getWalletDetails} from '../../services/wallet';
 import Button from '../../components/button';
+import Toaster from '../../services/toasterService';
 
 
 const WalletOutstanding = ({navigation}) => {
@@ -32,7 +33,8 @@ const WalletOutstanding = ({navigation}) => {
         .then((res) => {
           if (res.code == 200){
               if (res.success == "false"){
-                alert(res.message)
+                alert(res.message);
+                Toaster.show(res.message, 3000);
               }
             else {
               setData(res);
@@ -40,13 +42,7 @@ const WalletOutstanding = ({navigation}) => {
               setLoading(false);   
           }
           else {
-              ToastAndroid.showWithGravityAndOffset(
-              res.message,
-              ToastAndroid.LONG,
-              ToastAndroid.BOTTOM,
-              25,
-              50
-              );
+              Toaster.show(res.message, 3000);
           }
         })     
     }

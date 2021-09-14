@@ -18,7 +18,6 @@ const ReOrderScreen = ({route,navigation}) => {
 
     useEffect(() => {
      viewOrder()
-      
     }, [])
 
     function viewOrder() {
@@ -44,7 +43,6 @@ const ReOrderScreen = ({route,navigation}) => {
       navigation.navigate('SelectTimeSlot',{orderType:data.order_type, name:data.client_name,clientEmail:data.client_id,medicineName:data.medicine_name,quantity:data.qty,
                       address1:data.street_addr, address2:data.building_addr, state:data.state, areaCode: data.area_code,city:data.city, phoneNo:data.primary_phone, 
                       paymentType:data.cash_collection_type, cashAmount:data.cash_amount, paidPharmacy:data.cash_pharmacy_amount, paidIncuranceCompany:data.cash_company_amount})
-   
     }
  
     if (isLoading){
@@ -58,8 +56,7 @@ const ReOrderScreen = ({route,navigation}) => {
     return (
       <SafeAreaView style={profileStyles.container}>
       <StatusBar backgroundColor='#000' barStyle="light-content"/>  
-        <ScrollView style={{marginBottom:70}}>
-
+      <ScrollView style={{marginBottom:70}}>
         <View style={{paddingHorizontal: 20,}}>
           <Text style={profileStyles.text_footer}>Name</Text>
           <View style={profileStyles.action}>
@@ -172,7 +169,3 @@ const ReOrderScreen = ({route,navigation}) => {
 
 export default ReOrderScreen;
 
-const styles = StyleSheet.create({
-  
-  
-});

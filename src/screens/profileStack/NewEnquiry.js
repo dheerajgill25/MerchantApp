@@ -5,6 +5,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import Button from '../../components/button';
 import profileStyles from './profileStyle';
 import {newEnquiry} from '../../services/updateProfile';
+import Toaster from '../../services/toasterService';
 
 const NewEnquiry =({navigation})=>{
 
@@ -53,24 +54,13 @@ const NewEnquiry =({navigation})=>{
             }
 
             else {
-                ToastAndroid.showWithGravityAndOffset(
-                res.message,
-                ToastAndroid.LONG,
-                ToastAndroid.BOTTOM,
-                25,
-                50);
+                Toaster.show( res.message, 3000);
             }
                                       
         })
         }
         else{
-                ToastAndroid.showWithGravityAndOffset(
-                'Please enter correct contact number',
-                ToastAndroid.LONG,
-                ToastAndroid.BOTTOM,
-                25,
-                50
-            ); 
+            Toaster.show( 'Please enter correct contact number', 3000);
         }
         
     }

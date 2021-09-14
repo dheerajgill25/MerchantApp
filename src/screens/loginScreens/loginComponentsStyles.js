@@ -42,6 +42,7 @@ const loginStyles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#fff',
     paddingBottom: 5,
+    marginBottom:20
   },
   textInput: {
     flex: 1,

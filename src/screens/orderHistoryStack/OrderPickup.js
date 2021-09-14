@@ -9,7 +9,13 @@ import {
 } from 'react-native';
 import {useFocusEffect} from '@react-navigation/native';
 import {pickup} from '../../services/history';
+<<<<<<< HEAD
 import Card from '../../components/card';
+=======
+import styles from './OrderHistoryStyles';
+import Card from '../../components/card'
+import Toaster from '../../services/toasterService';
+>>>>>>> 29c9133e6975b023567a168bc145d27491bd5b08
 
 const OrderPickup = () => {
   const [upcomingList, setUpcomingList] = useState([]);
@@ -44,18 +50,13 @@ const OrderPickup = () => {
         } else {
           setUpcomingList(res.upcoming_pickup_list);
           setCompletedList(res.completed_pickup_list);
-          setValue(res);
-        }
-        setLoading(false);
-      } else {
-        ToastAndroid.showWithGravityAndOffset(
-          res.message,
-          ToastAndroid.LONG,
-          ToastAndroid.BOTTOM,
-          25,
-          50,
-        );
-        console.log('error', res);
+          setValue(res)
+          };   
+          setLoading(false);   
+      }
+      else {
+          Toaster.show( res.message, 3000);
+          console.log("error",res)
       }
     });
   }

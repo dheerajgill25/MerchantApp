@@ -17,11 +17,19 @@ import images from './images';
 import {getuser, setuser} from './constants/tokenHandler'
 import { AuthContext } from './components/context';
 import BusinessDetailsScreen from './screens/loginScreens/BusinessDetailsScreen'
+import NotificationWatcher from './services/pushnotification';
+import { Permission, PERMISSIONS_TYPE } from './constants/Permission';
 
 const App = () => {
   const [isLoading, setIsLoading] = React.useState(true);
   //  const [userToken, setUserToken] = React.useState(null); 
-
+  useEffect(()=>{
+    Permission.requestMultiple([
+      PERMISSIONS_TYPE.photo,
+      PERMISSIONS_TYPE.camera,
+    ]);
+   
+  },[])
   const initialLoginState = {
     isLoading: true,
     userToken: null,
@@ -137,6 +145,7 @@ const App = () => {
   return (
     <AuthContext.Provider value={authContext}>
     <NavigationContainer>
+    <NotificationWatcher/>
       { loginState.userToken !== null ? (
         <MainTabScreen />
       )

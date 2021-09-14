@@ -9,7 +9,9 @@ import {
 } from 'react-native';
 import {useFocusEffect} from '@react-navigation/native';
 import {dropOff} from '../../services/history';
+import styles from './OrderHistoryStyles';
 import Card from '../../components/card';
+import Toaster from '../../services/toasterService';
 
 const OrderDropOff = () => {
   const [dropUpcomingList, setDropUpcomingList] = useState([]);
@@ -48,17 +50,10 @@ const OrderDropOff = () => {
         }
         setLoading(false);
       } else {
-        ToastAndroid.showWithGravityAndOffset(
-          res.message,
-          ToastAndroid.LONG,
-          ToastAndroid.BOTTOM,
-          25,
-          50,
-        );
+        Toaster.show(res.message, 3000);
       }
     });
   }
-  
   const Item = ({orderId, categoryImage, pickupTime, dropTime}) => (
     <Card
       style={{
@@ -140,7 +135,7 @@ const OrderDropOff = () => {
     );
   } else {
     return (
-      <SafeAreaView style={{flex: 1, backgroundColor: '#000'}}>
+      <SafeAreaView style={styles.container}>
         <View style={{marginTop: 60, flex: 4, marginHorizontal: 17}}>
           <Text
             style={{
