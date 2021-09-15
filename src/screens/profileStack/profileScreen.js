@@ -280,7 +280,7 @@ const ProfileScreen = ({navigation}) => {
                 </View>  
                 <View style={[profileStyles.columnSection,{marginRight:10}]}>
                   <TouchableOpacity style={profileStyles.greyButton}
-                      onPress={() => navigation.navigate('HelpCenterList')}>
+                      onPress={() => navigation.navigate('HelpCenterListScreen')}>
                       <Text style={{color: '#fff', fontSize:15}}>Help</Text>
                   </TouchableOpacity>
                 </View>

@@ -96,20 +96,6 @@ const App = () => {
       }
       dispatch({ type: 'LOGOUT' });
     },
-    signUp:async(token) => {
-      // setUserToken('fgkj');
-      setIsLoading(false);
-      const userToken = String(token);
-      
-      try {
-        await AsyncStorage.setItem('userToken', userToken);
-         setuser(userToken);
-      } catch(e) {
-        console.log(e);
-      }
-      
-      dispatch({ type: 'LOGIN', token: userToken });
-    },
     
   }), []);
 

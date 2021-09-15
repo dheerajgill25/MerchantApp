@@ -86,6 +86,7 @@ const SelectTimeSlot = ({navigation, route}) => {
   };
 
   function onCreatePickup() {
+    setLoading(true)
     createPickUp(
       route.params.orderType,
       route.params.name,
@@ -111,8 +112,10 @@ const SelectTimeSlot = ({navigation, route}) => {
           alert(res.message);
         } else {
           alert(res.message);
+          
           navigation.navigate('OrderDetails', {id: res.order_id});
         }
+        setLoading(false)
       } else {
         Toaster.show(res.message, 3000);
       }
@@ -163,7 +166,7 @@ const SelectTimeSlot = ({navigation, route}) => {
     );
   } else {
     return (
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         <TouchableOpacity onPress={() => showDatePicker()}>
           <View style={styles.showdate}>
             <Text style={{flex: 1, color: '#fff'}}>{getDate()}</Text>
@@ -203,7 +206,7 @@ const SelectTimeSlot = ({navigation, route}) => {
             <Text style={{color: '#fff', fontSize: 17}}>Create Pickup</Text>
           </Button>
         </View>
-      </View>
+      </ScrollView>
     );
   }
 };

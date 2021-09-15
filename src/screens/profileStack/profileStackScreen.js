@@ -4,8 +4,10 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import ProfileScreen from './profileScreen';
 import editProfileScreen from './editProfileScreen';
-import HelpCenterList from './HelpCenterList';
+import HelpCenterListScreen from './HelpCenterListScreen';
 import NewEnquiry from './NewEnquiry';
+import HelpCenterChat from './HelpCenterChat';
+
 
 
 const ProfileStack = createStackNavigator();
@@ -27,8 +29,12 @@ const ProfileStackScreen = (props,{navigation}) => (
     }}>
         <ProfileStack.Screen name="ProfileScreen" component={ProfileScreen} options={{title:'Your Profile',}} />
         <ProfileStack.Screen name="editProfileScreen" component={editProfileScreen} options={{title:'Edit Profile',}} />
-        <ProfileStack.Screen name="HelpCenterList" component={HelpCenterList} options={{title:'Help Center',}} />
+        <ProfileStack.Screen name="HelpCenterListScreen" component={HelpCenterListScreen} options={{title:'Help Center',}} />
         <ProfileStack.Screen name="NewEnquiry" component={NewEnquiry} options={{title:'New Enquiry',}} />
+        <ProfileStack.Screen name="HelpCenterChat" component={HelpCenterChat} options={({route}) => ({
+                title:route.params.orderID,
+                headerBackTitleVisible: false,
+        })}/>
 
 </ProfileStack.Navigator>
 );

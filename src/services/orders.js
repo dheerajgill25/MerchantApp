@@ -22,25 +22,6 @@ export const dashboard =() => {
 };
 
 
-export const getClientList =() => {
-    token = null;
-    token = getuser()
-    const URL = Constants.BASE_URL+Constants.MERCHANT_ORDER+Constants.CLIENT_LIST;
-    return fetch(URL,{
-      headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Authorization': token,
-          },
-    })
-    .then((response) => response.json())
-    .then((json) => {
-      return json;
-    })
-    .catch((error) => {
-      console.error("error...",error);
-    });
-};
 
 
 export const getTimeSlot = () => {
@@ -70,7 +51,7 @@ export const createPickUp =(orderType,name,clientEmail,medicineName,quantity,add
   let formdata = new FormData();
     formdata.append("order_type",orderType)
     formdata.append("client_name",name)
-    formdata.append("client_id", clientEmail)
+    formdata.append("client_email", clientEmail)
     formdata.append("medicine_name",medicineName)
     formdata.append("qty",quantity)
     formdata.append("street_addr", address1)

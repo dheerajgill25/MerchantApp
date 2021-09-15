@@ -42,6 +42,9 @@ const DropdownComponent = ({ dropdownData = [], title, onPress, edit, type }) =>
         }else if (type==="clientList"){
             dropdownValue=data.full_name;
         }
+        else if (type==="orderId"){
+            dropdownValue=data.orderID;
+        }
         return dropdownValue;
     }
     return (
