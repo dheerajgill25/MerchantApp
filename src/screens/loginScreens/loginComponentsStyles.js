@@ -4,7 +4,7 @@ const height_logo = height * 0.28;
 
 const loginStyles = StyleSheet.create({
   container: { 
-    backgroundColor: '#000'
+    backgroundColor: '#000',
   },
   header: {
     flex:1,
@@ -48,6 +48,7 @@ const loginStyles = StyleSheet.create({
     marginTop: Platform.OS === 'ios' ? 0 : -12,
     paddingLeft: 10,
     color: '#fff',
+    paddingBottom:Platform.OS === 'ios' ? 5 : 0,
   },
 
   submit: { 

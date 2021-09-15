@@ -442,7 +442,7 @@ const BusinessDetailsScreen = ({route, navigation}) => {
     return (
       <SafeAreaView style={{flex:1, backgroundColor: '#000'}}>
         <StatusBar backgroundColor="#000" barStyle="light-content" />
-        <ScrollView>
+        <ScrollView nestedScrollEnabled = {true}>
           <Animatable.View style={styles.footer} animation="fadeInUpBig">
             <Text style={styles.text_header}>Business Details</Text>
             <View style={loginStyles.action}>

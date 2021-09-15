@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet} from 'react-native';
+import {Platform, StyleSheet} from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -37,7 +37,7 @@ const MainTabScreen = ({navigation}) => (
             name="ios-home"
             color={color}
             size={26}
-            style={{marginTop: phoneHeight() < 640 ? 0 : 30, height:28}}
+            style={{marginTop: phoneHeight() < 640 ? 0 : 30 && Platform.OS=='android'?0:30, height:28}}
           />
         ),
       }}
@@ -52,7 +52,7 @@ const MainTabScreen = ({navigation}) => (
             name="wallet"
             color={color}
             size={26}
-            style={{marginTop: phoneHeight() < 640 ? 0 : 30, height: 28}}
+            style={{marginTop: phoneHeight() < 640 ? 0 : 30&& Platform.OS=='android'?0:30, height: 28}}
           />
         ),
       }}
@@ -67,7 +67,7 @@ const MainTabScreen = ({navigation}) => (
             name="history"
             color={color}
             size={26}
-            style={{marginTop: phoneHeight() < 640 ? 0 : 30, height: 28}}
+            style={{marginTop: phoneHeight() < 640 ? 0 : 30&& Platform.OS=='android'?0:30, height: 28}}
           />
         ),
       }}
@@ -82,7 +82,7 @@ const MainTabScreen = ({navigation}) => (
             name="ios-person"
             color={color}
             size={26}
-            style={{marginTop: phoneHeight() < 640 ? 0 : 30, height: 28}}
+            style={{marginTop: phoneHeight() < 640 ? 0 : 30&& Platform.OS=='android'?0:30, height: 28}}
           />
         ),
       }}

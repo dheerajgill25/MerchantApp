@@ -48,22 +48,23 @@ const DropdownComponent = ({ dropdownData = [], title, onPress, edit, type }) =>
         <>
             <View style={styles.dropdownBox}>
                 <View>
-                    <TouchableOpacity activeOpacity={1} style={[styles.dropdownFlex, { marginBottom: showDropdown ? 0 : Platform.OS=='android' ? 15 : 0 }]} onPress={() => { setShowDropdown(showDropdown ? false : true); isShown = showDropdown ? false : true; }}>
+                    <TouchableOpacity activeOpacity={1} style={[styles.dropdownFlex, { marginBottom: showDropdown ? 0 : Platform.OS=='android' ? 10 : 0 }]} onPress={() => { setShowDropdown(showDropdown ? false : true); isShown = showDropdown ? false : true; }}>
                         <Text style={[styles.title, { color: selectedValue ? 'white' : edit ? 'black' : 'white' }]}>{dropdownValue ? dropdownValue : title}</Text>
                         <Icon name={showDropdown?"chevron-up":"chevron-down"} color="white" size={22} />
                     </TouchableOpacity>
                     <View style={showDropdown&&styles.setHeight}>
-                        <ScrollView>
+                        <ScrollView nestedScrollEnabled = {true} scrollEnabled={true} >
                     {
                         showDropdown && dropdownData ? (
                             dropdownData && dropdownData.length > 0 && (
-                                dropdownData && dropdownData.map((item, index) => (
-                                    <View key={index} style={[styles.dropdownWrap]}>
+                                dropdownData && dropdownData.map((item, index) => {
+                                   return (
+                                    <View key={index} style={[styles.dropdownWrap,{height:50}]}>
                                         <TouchableOpacity onPress={() => { onPress(item); handleValue(item) }} activeOpacity={0.6} style={styles.dropdownInner}>
                                             <Text style={styles.values}>{item? getName(item) : 'Please select'}</Text>
                                         </TouchableOpacity>
                                     </View>
-                                ))
+                                )})
                             )
                         ) : (
                             <View />
@@ -80,7 +81,8 @@ const DropdownComponent = ({ dropdownData = [], title, onPress, edit, type }) =>
 }
 
 const styles = StyleSheet.create({
-    dropdownBox: {},
+    dropdownBox: {
+    },
     dropdownWrap: {
         backgroundColor: '#000',
         shadowColor: "#000",
@@ -95,13 +97,12 @@ const styles = StyleSheet.create({
         paddingLeft: 10,
         borderBottomWidth: 0.2,
         borderBottomColor: "#a7a7a7",
-        width:'100%',
-        zIndex: 10,
+        zIndex: 10, 
     },
     dropdownInner: {},
     dropdownFlex: {
         paddingHorizontal: 5,
-        paddingVertical: 10,
+        paddingVertical: Platform.OS=='android'?5:10,
         flexDirection:'row',
         alignItems:'center',
         justifyContent:'space-between'
@@ -115,7 +116,8 @@ const styles = StyleSheet.create({
         color: '#fff',
     },
     setHeight:{
-        height:200
+        maxHeight:200,
+        overflow:'scroll'
     }
 });
 export default memo(DropdownComponent);
