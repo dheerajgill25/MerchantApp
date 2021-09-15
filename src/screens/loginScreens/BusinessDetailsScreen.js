@@ -132,9 +132,8 @@ const BusinessDetailsScreen = ({route, navigation}) => {
                                 setuser(
                                   res['merchant_details']['access_token_db'],
                                 );
-                                signUp(
-                                  res['merchant_details']['access_token_db'],
-                                );
+                                
+                                navigation.navigate('SignInScreen');
                               }
                             } else {
                               Toaster.show(res.message, 3000);
@@ -500,16 +499,8 @@ const BusinessDetailsScreen = ({route, navigation}) => {
                type="businessDomainList"  
               />
             </View>
+            
             <Text style={styles.text_header}>Address</Text>
-            <View style={loginStyles.action}>
-              <TextInput
-                placeholder="Street Address"
-                placeholderTextColor="#fff"
-                style={[loginStyles.textInput, {fontSize: 16}]}
-                autoCapitalize="none"
-                onChangeText={val => address1InputChange(val)}
-              />
-            </View>
             <View style={loginStyles.action}>
               <TextInput
                 placeholder="Apt, Building Gate Code, etc"
@@ -519,6 +510,16 @@ const BusinessDetailsScreen = ({route, navigation}) => {
                 onChangeText={val => address2InputChange(val)}
               />
             </View>
+            <View style={loginStyles.action}>
+              <TextInput
+                placeholder="Street Address"
+                placeholderTextColor="#fff"
+                style={[loginStyles.textInput, {fontSize: 16}]}
+                autoCapitalize="none"
+                onChangeText={val => address1InputChange(val)}
+              />
+            </View>
+
             <View style={{borderBottomWidth: 1, borderColor: '#fff', marginBottom:20}}>
               <DropdownComponent
                 title="Select State List"

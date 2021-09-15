@@ -53,25 +53,9 @@ const StandardOrder = ({navigation}) => {
   const [areaCodeList, setAreaCodeList] = useState([]);
 
   useEffect(() => {
-    ClientList();
-
     StateList();
   }, []);
 
-  function ClientList() {
-    getClientList().then(res => {
-      if (res.code == 200) {
-        if (res.success == 'false') {
-          alert(res.message);
-        } else {
-          setClientList(res.list);
-          setLoading(false);
-        }
-      } else {
-        Toaster.show(res.message, 3000);
-      }
-    });
-  }
 
   function StateList() {
     getStateList().then(res => {
@@ -280,7 +264,7 @@ const StandardOrder = ({navigation}) => {
       });
     }
   };
-  const clientlistInputchange = val => {
+  const clientEmailInputchange = val => {
     if (val.length !== 0) {
       setData({
         ...data,
@@ -415,23 +399,16 @@ const StandardOrder = ({navigation}) => {
             />
           </View>
 
-          <View>
-            <View
-                style={{
-                  borderBottomWidth: 1,
-                  borderColor: '#fff', marginBottom: 20, 
-                }}>
-                <DropdownComponent
-                  title={'Please select client email'}
-                  dropdownData={clientList}
-                  onPress={data => clientlistInputchange(data.id)}
-                  type="clientList"
+          <View
+                style={styles.action}>
+                 <TextInput
+                  placeholder="Client Email"
+                  placeholderTextColor="#fff"
+                  style={[styles.textInput, {fontSize: 16}]}
+                  autoCapitalize="none"
+                  onChangeText={val => clientEmailInputchange(val)}
                 />
-              </View>
-            {/* <View style={styles.arrowWrapper}>
-                    <Text style={styles.arrow}>&#9660;</Text>
-                  </View> */}
-          </View>
+            </View>
           <View style={styles.action}>
             <TextInput
               placeholder="Medicine Name"
@@ -450,7 +427,15 @@ const StandardOrder = ({navigation}) => {
               onChangeText={val => quantityInputChange(val)}
             />
           </View>
-
+           <View style={styles.action}>
+            <TextInput
+              placeholder="Apt, Building Gate Code, etc"
+              placeholderTextColor="#fff"
+              style={[styles.textInput, {fontSize: 16}]}
+              autoCapitalize="none"
+              onChangeText={val => address2InputChange(val)}
+            />
+          </View>
           <View style={styles.action}>
             <TextInput
               placeholder="Street Address"
@@ -461,15 +446,7 @@ const StandardOrder = ({navigation}) => {
             />
           </View>
 
-          <View style={styles.action}>
-            <TextInput
-              placeholder="Apt, Building Gate Code, etc"
-              placeholderTextColor="#fff"
-              style={[styles.textInput, {fontSize: 16}]}
-              autoCapitalize="none"
-              onChangeText={val => address2InputChange(val)}
-            />
-          </View>
+         
           <View>
        
             <View

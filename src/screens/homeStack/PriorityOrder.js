@@ -54,24 +54,10 @@ const PriorityOrder = ({navigation}) => {
 
   useEffect(() => {
     StateList();
-    ClientList();
+    
   }, []);
 
-  function ClientList() {
-    getClientList().then(res => {
-      if (res.code == 200) {
-        if (res.success == 'false') {
-          alert(res.message);
-        } else {
-          console.log(res);
-          setClientList(res.list);
-          setLoading(false);
-        }
-      } else {
-        Toaster.show(res.message, 3000);
-      }
-    });
-  }
+
 
   function StateList() {
     getStateList().then(res => {
@@ -265,18 +251,16 @@ const PriorityOrder = ({navigation}) => {
       });
     }
   };
-  const clientlistInputchange = val => {
+  const clientEmailInputchange = val => {
     if (val.length !== 0) {
       setData({
         ...data,
         clientEmail: val,
-        check_clientNameInputChange: true,
       });
     } else {
       setData({
         ...data,
         clientEmail: val,
-        check_clientNameInputChange: false,
       });
     }
   };
@@ -391,7 +375,7 @@ const PriorityOrder = ({navigation}) => {
 
           <View style={styles.action}>
             <TextInput
-              placeholder="Name"
+              placeholder="Client Name"
               placeholderTextColor="#fff"
               style={[styles.textInput, {fontSize: 16}]}
               autoCapitalize="none"
@@ -399,20 +383,18 @@ const PriorityOrder = ({navigation}) => {
             />
           </View>
 
-          <View >
+          
             <View
-                style={{
-                  borderBottomWidth: 1,
-                  borderColor: '#fff', marginBottom: 20, 
-                }}>
-                <DropdownComponent
-                  title={'Please select client email'}
-                  dropdownData={clientList}
-                  onPress={data => clientlistInputchange(data.id)}
-                  type="clientList"
+                style={styles.action}>
+                 <TextInput
+                  placeholder="Client Email"
+                  placeholderTextColor="#fff"
+                  style={[styles.textInput, {fontSize: 16}]}
+                  autoCapitalize="none"
+                  onChangeText={val => clientEmailInputchange(val)}
                 />
-              </View>
-          </View>
+            </View>
+          
           <View style={styles.action}>
             <TextInput
               placeholder="Medicine Name"
@@ -431,7 +413,16 @@ const PriorityOrder = ({navigation}) => {
               onChangeText={val => quantityInputChange(val)}
             />
           </View>
-
+          <View style={styles.action}>
+            <TextInput
+              placeholder="Apt, Building Gate Code, etc"
+              placeholderTextColor="#fff"
+              style={[styles.textInput, {fontSize: 16}]}
+              autoCapitalize="none"
+              onChangeText={val => address2InputChange(val)}
+            />
+          </View>
+          
           <View style={styles.action}>
             <TextInput
               placeholder="Street Address"
@@ -442,17 +433,8 @@ const PriorityOrder = ({navigation}) => {
             />
           </View>
 
-          <View style={styles.action}>
-            <TextInput
-              placeholder="Apt, Building Gate Code, etc"
-              placeholderTextColor="#fff"
-              style={[styles.textInput, {fontSize: 16}]}
-              autoCapitalize="none"
-              onChangeText={val => address2InputChange(val)}
-            />
-          </View>
-          <View>
           
+          <View>
             <View
                 style={{
                   borderBottomWidth: 1,
